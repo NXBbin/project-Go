@@ -1,0 +1,8 @@
+前后端代码规划:
+
+1.存放js代码:
+webapp  移动端
+manager	PC端
+
+2.存放go代码:
+backend 后端
