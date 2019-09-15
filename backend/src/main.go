@@ -1,19 +1,28 @@
 package main
 
 import (
+	"log"
 	"router"
-
-	"github.com/gin-contrib/cors"
+	"config"
+	// "github.com/jinzhu/gorm"
+	"controller"
 )
 
 func main() {
+	//初始化配置
+	config.InitConfig()
+	
 	//调用初始化路由函数，获得路由对象
 	r := router.Routerlnit()
 
-	//为路由引擎增加中间件
-	// CORS,允许所有来源请求，解决跨域请求问题
-	r.Use(cors.Default())
+	// 调用初始化方法，（连接数据库，gorm）
+	db, err := controller.InitDB()
+	if err != nil {
+		log.Println("数据库连接失败", err)
+		return
+	}
+	defer db.Close()
 
 	//启动服务端口
-	r.Run(":8088")
+	r.Run(config.App["SERVER_ADDR"])
 }
