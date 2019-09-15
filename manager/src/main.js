@@ -14,6 +14,9 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
+// css
+import './assets/manager.css'
+
 Vue.config.productionTip = false
 
 new Vue({

@@ -1,0 +1,9 @@
+.float-right {
+    float: right !important;
+}
+
+.main-header {
+    border-bottom: 1px solid #e6e6e6;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+}

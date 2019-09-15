@@ -14,10 +14,8 @@ const routes = [
     { 
         path: '/', component: Layout, 
         children: [
-            {
-                path: 'category-tree',
-                component: CategoryTree,
-            },
+            { path: 'category-tree', component: CategoryTree, },
+            { path: 'products', component: ()=>import('../components/product/ProductList.vue'), },
         ]
     },
   ]
