@@ -7,3 +7,22 @@
     padding-bottom: 12px;
     margin-bottom: 12px;
 }
+
+.main-left {
+    padding: 12px;
+}
+.main-right {
+    padding: 12px;
+}
+
+.main-data {
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+}
+.main-pager {
+    padding: 12px;
+}
+
+.pager-col {
+    text-align: right;
+}

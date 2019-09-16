@@ -6,37 +6,152 @@
       </el-col>
 
       <el-col :span="12">
-        <el-button type="primary" class="float-right" @click="setDialogVisible = true">添加</el-button>
-        <el-dialog title="设置" :visible.sync="setDialogVisible">
-          <el-form :model="item" ref="itemSetForm" :rules="itemSetRules" label-width="140px">
-            <el-tabs v-model="setDialogActiveName">
-              <el-tab-pane label="基本信息" name="general"></el-tab-pane>
-
-              <el-tab-pane label="SEO 信息" name="seo"></el-tab-pane>
-            </el-tabs>
-          </el-form>
-
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="setDialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submitItemSetForm">确 定</el-button>
-          </div>
-        </el-dialog>
+        <el-button type="primary" class="float-right" @click="handleAddItem">添加</el-button>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="setDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="submitItemSetForm">确 定</el-button>
+        </div>
       </el-col>
     </el-row>
 
-    <el-row>
-      <el-col :span="24">
-        <el-table ref="itemsTable" :data="items" tooltip-effect="dark" style="width: 100%">
-          <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="Name" label="产品"></el-table-column>
-          <el-table-column prop="Price" label="价格"></el-table-column>
-          <el-table-column prop="Category.Name" label="所属分类"></el-table-column>
-          <el-table-column fixed="right" label="操作" width="120">
-            <template slot-scope>
-              <el-button type="text" size="small">移除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+    <el-dialog :title="setDialogTitle" :visible.sync="setDialogVisible">
+      <el-form :model="itemSetForm" ref="itemSetForm" :rules="itemSetRules" label-width="140px">
+        <el-tabs v-model="setDialogActiveName">
+          <el-tab-pane label="基本信息" name="general">
+            <el-form-item label="产品名称" prop="Name">
+              <el-input v-model="itemSetForm.Name"></el-input>
+            </el-form-item>
+            <el-form-item label="价格" prop="Price">
+              <el-input v-model="itemSetForm.Price"></el-input>
+            </el-form-item>
+            <el-form-item label="所属分类" prop="CategoryID">
+              <el-select v-model="itemSetForm.CategoryID" placeholder="请选择上级分类">
+                <el-option
+                  v-for="item in categoryOptions"
+                  :key="item.ID"
+                  :value="item.ID"
+                  :label="item.Name"
+                >
+                  <span v-bind:style="{ paddingLeft: item.Deep*16 + 'px' }">{{ item.Name }}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="UPC" prop="Upc">
+              <el-input v-model="itemSetForm.Upc"></el-input>
+            </el-form-item>
+            <el-form-item label="MPN" prop="Mpn">
+              <el-input v-model="itemSetForm.Mpn"></el-input>
+            </el-form-item>
+            <el-form-item label="重量" prop="Weight">
+              <el-input v-model="itemSetForm.Weight"></el-input>
+            </el-form-item>
+            <el-form-item label="描述" prop="Description">
+              <el-input type="textarea" v-model="itemSetForm.Description"></el-input>
+            </el-form-item>
+          </el-tab-pane>
+          <el-tab-pane label="扩展信息" name="extra">
+            <el-form-item label="是否上架" prop="IsSale">
+              <el-checkbox v-model="itemSetForm.IsSale">上架</el-checkbox>
+            </el-form-item>
+            <el-form-item label="上架时间" prop="SaleTime">
+              <el-date-picker
+                v-model="itemSetForm.SaleTime"
+                type="datetime"
+                placeholder="选择日期时间"
+              ></el-date-picker>
+            </el-form-item>
+            <el-form-item label="是否配送" prop="IsShipping">
+              <el-checkbox v-model="itemSetForm.IsShipping">配送</el-checkbox>
+            </el-form-item>
+            <el-form-item label="是否扣减库存" prop="IsSubstract">
+              <el-checkbox v-model="itemSetForm.IsSubstract">扣减库存</el-checkbox>
+            </el-form-item>
+          </el-tab-pane>
+          <el-tab-pane label="SEO 信息" name="seo"></el-tab-pane>
+        </el-tabs>
+      </el-form>
+    </el-dialog>
+
+    <el-row class="main-content">
+      <el-col :span="16" class="main-left">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>列表</span>
+          </div>
+
+          <!-- 数据展示 -->
+          <el-row class="main-data">
+            <el-col :span="24">
+              <el-table
+                ref="itemsTable"
+                :data="items"
+                tooltip-effect="dark"
+                style="width: 100%"
+                @sort-change="handleSortChange"
+              >
+                <el-table-column type="index" width="50"></el-table-column>
+
+                <el-table-column prop="Name" label="产品" sortable="custom"></el-table-column>
+                <el-table-column prop="Price" label="价格" sortable="custom"></el-table-column>
+                <el-table-column prop="Category.Name" label="所属分类"></el-table-column>
+                <el-table-column type="selection" width="55"></el-table-column>
+                <el-table-column fixed="right" label="操作" width="120">
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      size="small"
+                      @click="handleRemoveItem(scope.$index, scope.row)"
+                    >移除</el-button>
+
+                    <el-button
+                      type="text"
+                      size="small"
+                      @click="handleEditItem(scope.$index, scope.row)"
+                    >编辑</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-col>
+          </el-row>
+        </el-card>
+
+        <el-row class="main-pager">
+          <el-col :span="24" class="pager-col">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-sizes="[5, 10, 15, 20]"
+              :page-size="pageSize"
+              :total="total"
+              layout="total, sizes, prev, pager, next, jumper"
+            ></el-pagination>
+          </el-col>
+        </el-row>
+      </el-col>
+
+      <el-col :span="8" class="main-right">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>筛选</span>
+          </div>
+          <!-- 数据筛选 -->
+          <el-form :label-position="'top'" label-width="80px" :model="filterForm">
+            <el-form-item label="产品名称">
+              <el-input v-model="filterForm.filterName"></el-input>
+            </el-form-item>
+            <el-form-item label="分类">
+              <el-input v-model="filterForm.CategoryID"></el-input>
+            </el-form-item>
+            <el-form-item label="价格">
+              <el-input v-model="filterForm.Price"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitFilterForm" class="float-right">筛选</el-button>
+              <el-button @click="resetFilterForm" class="float-right">重置</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
       </el-col>
     </el-row>
   </div>
@@ -44,31 +159,201 @@
 
 <script>
 import base from "../../api/uri.js";
+import { isNull } from "util";
 export default {
   name: "ProductList",
   data() {
     return {
       items: [],
+      currentPage: 1,
+      pageSize: 10,
+      total: 122,
+      filterForm: {},
+      sortProp: "",
+      sortOrder: "",
 
-      item: {},
-      itemSetRules: {},
+      itemSetForm: {},
+      itemSetRules: {
+        Name: [
+          { required: true, message: "请输入名称", trigger: ["blur", "change"] }
+        ]
+      },
       setDialogVisible: false,
-      setDialogActiveName: "general"
+      setDialogActiveName: "general",
+      setDialogTitle: "添加",
+
+      categoryOptions: [],
     };
   },
   mounted() {
     this.refreshItems();
   },
   methods: {
-    refreshItems() {
-      this.axios.get(base + "products").then(resp => {
+    refreshItems(params = {}) {
+      this.axios
+        .get(base + "products", {
+          params
+        })
+        .then(resp => {
+          if (resp.data.error == "") {
+            // 当前页数据
+            this.items = resp.data.data;
+            // 翻页需要的数据
+            this.currentPage = resp.data.pager.currentPage;
+            this.pageSize = resp.data.pager.pageSize;
+            this.total = resp.data.pager.total;
+          } else {
+            this.items = [];
+          }
+        });
+    },
+    // 翻页-size改变
+    handleSizeChange(size) {
+      this.refreshItems(
+        Object.assign(
+          {
+            currentPage: 1,
+            pageSize: size
+          },
+          this.filterForm,
+          {
+            sortProp: isNull(this.sortOrder) ? null : this.sortProp,
+            sortOrder: this.sortOrder
+          }
+        )
+      );
+    },
+    // 翻页-page改变
+    handleCurrentChange(page) {
+      this.refreshItems(
+        Object.assign(
+          {
+            currentPage: page,
+            pageSize: this.pageSize
+          },
+          this.filterForm,
+          {
+            sortProp: isNull(this.sortOrder) ? null : this.sortProp,
+            sortOrder: this.sortOrder
+          }
+        )
+      );
+    },
+
+    // 筛选-提交
+    submitFilterForm() {
+      this.refreshItems(
+        Object.assign(
+          {
+            currentPage: 1
+          },
+          this.filterForm
+        )
+      );
+    },
+    // 筛选-重置
+    resetFilterForm() {
+      this.filterForm = {};
+
+      this.refreshItems({
+        currentPage: 1,
+        pageSize: this.pageSize
+      });
+    },
+    // 排序事件
+    handleSortChange(option) {
+      console.log(option);
+      // 记录排序方式
+      this.sortProp = option.prop;
+      this.sortOrder = option.order;
+
+      // 带有排序参数请求
+      let params = Object.assign(
+        {
+          currentPage: 1,
+          pageSize: this.pageSize
+        },
+        this.filterForm,
+        {
+          sortProp: isNull(option.order) ? null : option.prop,
+          sortOrder: option.order
+        }
+      );
+      this.refreshItems(params);
+    },
+    // 移除
+    handleRemoveItem(index, item) {
+      // 确认框
+      this.$confirm("是否确认删除 " + item.Name + " ?", "确认", {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          // 发出删除请求
+          this.axios
+            .delete(base + "product", {
+              params: {
+                ID: item.ID
+              }
+            })
+            .then(resp => {
+              if ("" != resp.data.error) {
+                // 给出错误消息，提示框
+                this.$message.error(resp.data.error);
+                return;
+              }
+
+              // 删除成，更新数据
+              this.items.splice(index, 1);
+            });
+        })
+        .catch(() => {});
+    },
+
+    handleAddItem() {
+      // 获取当前的分类选项
+      this.refreshCategoryOptions();
+      // 设置为新对象
+      this.itemSetForm = {
+        Price: 0,
+        Weight: 0,
+        IsSale: true,
+        IsShipping: true,
+        IsSubstract: true
+      };
+
+      this.setDialogVisible = true;
+      this.setDialogTitle = "添加";
+    },
+    handleEditItem(index, item) {
+      // 获取当前的分类选项
+      this.refreshCategoryOptions();
+
+      // 设为当前正在编辑的对象
+      this.itemSetForm = item;
+
+      this.setDialogVisible = true;
+      this.setDialogTitle = "设置";
+    },
+    refreshCategoryOptions() {
+      this.categoryOptions = [];
+      let url = base + "category-tree";
+      this.axios.get(url).then(resp => {
         if (resp.data.error == "") {
-            this.items = resp.data.data
-            console.log(this.items)
-        } else {
-            this.items = []
+          this.indentTree(resp.data.data, 0);
         }
       });
+    },
+    indentTree(all, id, deep = 0) {
+      for (let item of all) {
+        if (item.ParentId == id) {
+          item.Deep = deep;
+          this.categoryOptions.push(item);
+          // 存在子分类
+          this.indentTree(all, item.ID, deep + 1);
+        }
+      }
     },
     submitItemSetForm() {}
   }

@@ -30,6 +30,8 @@ func Routerlnit() *gin.Engine {
 	// 产品：
 	//获取产品
 	r.GET("/products",controller.ProductList)
+	//删除产品
+	r.DELETE("/product",controller.ProductDelete)
 	
 	//返回路由引擎对象
 	return r

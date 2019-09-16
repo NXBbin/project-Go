@@ -75,5 +75,45 @@ func main() {
 		Name:       "手机",
 		CategoryID: 3,
 	})
+	orm.Create(&model.Product{
+		Name:       "相机",
+		CategoryID: 3,
+	})
+	orm.Create(&model.Product{
+		Name:       "平板",
+		CategoryID: 3,
+	})
+	orm.Create(&model.Product{
+		Name:       "充电宝",
+		CategoryID: 3,
+	})
+	orm.Create(&model.Product{
+		Name:       "电视机",
+		CategoryID: 3,
+	})
+	orm.Create(&model.Product{
+		Name:       "监控设备",
+		CategoryID: 3,
+	})
+	orm.Create(&model.Product{
+		Name:       "网络设备",
+		CategoryID: 3,
+	})
+	orm.Create(&model.Product{
+		Name:       "洗衣机",
+		CategoryID: 3,
+	})
+	orm.Create(&model.Product{
+		Name:       "热水器1",
+		CategoryID: 3,
+	})
+	orm.Create(&model.Product{
+		Name:       "热水器2",
+		CategoryID: 3,
+	})
+	orm.Create(&model.Product{
+		Name:       "热水器3",
+		CategoryID: 3,
+	})
 	// log.Println(orm.Error)
 }
