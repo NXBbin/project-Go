@@ -1,5 +1,7 @@
 package controller
 
+//连接数据库配置信息
+
 import (
 	"config"
 	"fmt"

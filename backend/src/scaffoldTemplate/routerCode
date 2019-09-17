@@ -1,0 +1,17 @@
+	//生成路由代码，脚手架模板
+	//品牌 Restful 路由
+	r.GET("/brand", controller.BrandList)
+
+	r.DELETE("/brand", controller.BrandDelete)
+	
+	r.POST("/brand", controller.BrandCreate)
+
+	r.PUT("/brand", controller.BrandUpdate)	//生成路由代码，脚手架模板
+	//品牌 Restful 路由
+	r.GET("/brand", controller.BrandList)
+
+	r.DELETE("/brand", controller.BrandDelete)
+	
+	r.POST("/brand", controller.BrandCreate)
+
+	r.PUT("/brand", controller.BrandUpdate)

@@ -51,29 +51,28 @@
           </el-tab-pane>
           <el-tab-pane label="扩展信息" name="extra">
             <el-form-item label="是否上架" prop="IsSale">
-              <el-checkbox v-model="itemSetForm.IsSale">上架</el-checkbox>
+              <el-checkbox v-model="itemSetForm.IsSale" :true-label="1" :false-label="0">上架</el-checkbox>
             </el-form-item>
             <el-form-item label="上架时间" prop="SaleTime">
-              <el-date-picker
-                v-model="itemSetForm.SaleTime"
-                type="datetime"
-                placeholder="选择日期时间"
-              ></el-date-picker>
+              <el-date-picker v-model="itemSetForm.SaleTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
             </el-form-item>
             <el-form-item label="是否配送" prop="IsShipping">
-              <el-checkbox v-model="itemSetForm.IsShipping">配送</el-checkbox>
+              <el-checkbox v-model="itemSetForm.IsShipping" :true-label="1" :false-label="0">配送</el-checkbox>
             </el-form-item>
             <el-form-item label="是否扣减库存" prop="IsSubstract">
-              <el-checkbox v-model="itemSetForm.IsSubstract">扣减库存</el-checkbox>
+              <el-checkbox v-model="itemSetForm.IsSubstract" :true-label="1" :false-label="0">扣减库存</el-checkbox>
             </el-form-item>
           </el-tab-pane>
           <el-tab-pane label="SEO 信息" name="seo"></el-tab-pane>
         </el-tabs>
       </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitItemSetForm">提交</el-button>
+      </div>
     </el-dialog>
 
     <el-row class="main-content">
-      <el-col :span="16" class="main-left">
+      <el-col :span="18" class="main-left">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>列表</span>
@@ -130,7 +129,7 @@
         </el-row>
       </el-col>
 
-      <el-col :span="8" class="main-right">
+      <el-col :span="6" class="main-right">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>筛选</span>
@@ -172,6 +171,7 @@ export default {
       sortProp: "",
       sortOrder: "",
 
+      itemSetOperation: "", //add, edit
       itemSetForm: {},
       itemSetRules: {
         Name: [
@@ -182,7 +182,7 @@ export default {
       setDialogActiveName: "general",
       setDialogTitle: "添加",
 
-      categoryOptions: [],
+      categoryOptions: []
     };
   },
   mounted() {
@@ -262,7 +262,6 @@ export default {
     },
     // 排序事件
     handleSortChange(option) {
-      console.log(option);
       // 记录排序方式
       this.sortProp = option.prop;
       this.sortOrder = option.order;
@@ -312,21 +311,23 @@ export default {
     },
 
     handleAddItem() {
+      this.itemSetOperation = "add";
       // 获取当前的分类选项
       this.refreshCategoryOptions();
       // 设置为新对象
       this.itemSetForm = {
         Price: 0,
         Weight: 0,
-        IsSale: true,
-        IsShipping: true,
-        IsSubstract: true
+        IsSale: 1,
+        IsShipping: 1,
+        IsSubstract: 1
       };
 
       this.setDialogVisible = true;
       this.setDialogTitle = "添加";
     },
     handleEditItem(index, item) {
+      this.itemSetOperation = "edit";
       // 获取当前的分类选项
       this.refreshCategoryOptions();
 
@@ -355,7 +356,58 @@ export default {
         }
       }
     },
-    submitItemSetForm() {}
+    // 提交设置表单
+    submitItemSetForm() {
+      this.$refs["itemSetForm"].validate((valid, fields) => {
+        if (!valid) {
+          console.log(fields);
+          return;
+        }
+
+        // 校验通过
+        // 添加
+        if ("add" == this.itemSetOperation) {
+          this.itemSetAdd()
+        }
+        // 更新
+        else if ("edit" == this.itemSetOperation) {
+          this.itemSetEdit()
+        }
+      });
+    },
+    // 添加
+    itemSetAdd() {
+      this.axios.post(base + "product", this.itemSetForm).then(resp => {
+        if (resp.data.error != "") {
+          // 失败
+          this.$message.error(resp.data.error);
+          return;
+        }
+        this.items.push(resp.data.data);
+        this.$refs["itemSetForm"].resetFields();
+        this.setDialogVisible = false;
+      });
+    },
+    // 编辑
+    itemSetEdit() {
+      this.axios
+        .put(base + "product", this.itemSetForm, {
+          params: {
+            ID: this.itemSetForm.ID
+          }
+        })
+        .then(resp => {
+          if (resp.data.error != "") {
+            // 失败
+            this.$message.error(resp.data.error);
+            return;
+          }
+          let index = this.items.findIndex(item => item.ID == resp.data.data.ID)
+          this.items[index] = resp.data.data
+          this.$refs["itemSetForm"].resetFields();
+          this.setDialogVisible = false;
+        });
+    }
   }
 };
 </script>

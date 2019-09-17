@@ -1,0 +1,9 @@
+	//生成路由代码，脚手架模板
+	//%m-title% Restful 路由
+	r.GET("/%r-name%", controller.%c-name%List)
+
+	r.DELETE("/%r-name%", controller.%c-name%Delete)
+	
+	r.POST("/%r-name%", controller.%c-name%Create)
+
+	r.PUT("/%r-name%", controller.%c-name%Update)

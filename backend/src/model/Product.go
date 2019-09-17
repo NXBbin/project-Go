@@ -1,6 +1,6 @@
 package model
 
-//产品模型
+//产品表模型
 
 import (
 	"time"
@@ -26,7 +26,7 @@ type Product struct {
 	//关联定义，多个产品关联一个分类
 	//被关联的外键（必须存在一个...ID属性名，否则关联的外键上需要使用targ语法)
 	CategoryID uint
-	
+
 	//产品属于分类
 	Category Category
 }

@@ -1,5 +1,7 @@
 package model
 
+//分类表模型
+
 import "github.com/jinzhu/gorm"
 
 //模型结构体定义，对应数据库中的表结构

@@ -1,6 +1,6 @@
 package controller
 
-//负责 分类相关操作的函数集合文件
+//负责：分类相关操作的函数集合文件
 
 import (
 	"strconv"
@@ -9,8 +9,6 @@ import (
 
 	// "github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-
-	// "dao"
 	"log"
 	"model"
 )
@@ -112,7 +110,11 @@ func CategoryUpdate(c *gin.Context) {
 
 }
 
-// //分类树
+
+
+
+
+// //DAO分类树
 // func CategoryTree(c *gin.Context) {
 //连接数据库，获取全部分类内容
 //数据库参数
