@@ -1,17 +1,17 @@
 package controller
 
-//Brand 表控制器（增删改查）代码，脚手架模板
+//User 表控制器（增删改查）代码，脚手架模板
+
 
 import (
 	"model"
 	"net/http"
 	"strconv"
-
 	"github.com/gin-gonic/gin"
 )
 
 //产品列表
-func BrandList(c *gin.Context) {
+func UserList(c *gin.Context) {
 	//搜索(筛选）
 	condStr := ""
 	condParams := []string{}
@@ -54,15 +54,16 @@ func BrandList(c *gin.Context) {
 
 	//获取总记录数
 	total := 0
-	orm.Model(&model.Brand{}).Where(condStr, condParams).Count(&total)
+	orm.Model(&model.User{}).Where(condStr, condParams).Count(&total)
 	//计算偏移量
 	offset := (currentPage - 1) * pageSize
 
 	//获取product模型
-	ms := []model.Brand{}
+	ms := []model.User{}
 	//获取展示数量和偏移量,输出数据获
 	orm.Where(condStr, condParams).Order(orderStr).Limit(pageSize).Offset(offset).Find(&ms)
 	//遍历全部属性，找到关联字段
+	 
 
 	//响应
 	c.JSON(http.StatusOK, gin.H{
@@ -81,7 +82,7 @@ func BrandList(c *gin.Context) {
 }
 
 //产品删除
-func BrandDelete(c *gin.Context) {
+func UserDelete(c *gin.Context) {
 	//获取前端参数（需要删除的ID）
 	ID := c.DefaultQuery("ID", "")
 	if "" == ID {
@@ -91,7 +92,7 @@ func BrandDelete(c *gin.Context) {
 		return
 	}
 	//确定模型对象（表）
-	m := model.Brand{}
+	m := model.User{}
 	//将前端数据进行类型转换（string转uint）
 	id, _ := strconv.Atoi(ID)
 	m.ID = uint(id)
@@ -110,9 +111,9 @@ func BrandDelete(c *gin.Context) {
 }
 
 //产品添加
-func BrandCreate(c *gin.Context) {
+func UserCreate(c *gin.Context) {
 	//确定模型对象（表）
-	m := model.Brand{}
+	m := model.User{}
 	//使用c.ShouldBind(),绑定并解析post数据
 	err := c.ShouldBind(&m)
 	if err != nil {
@@ -124,6 +125,7 @@ func BrandCreate(c *gin.Context) {
 	}
 
 	//判断用户是否有设置Upc数据（Upc是唯一键，不设置会报错）
+	 
 
 	// 将关联临时关闭，(若不关闭，也会将添加的数据自动添加到关联的表中)，并添加数据
 	orm.Set("gorm:save_associations", false).Create(&m)
@@ -136,6 +138,7 @@ func BrandCreate(c *gin.Context) {
 	}
 
 	// 查询相关联的表数据
+	 
 
 	//响应正确数据
 	c.JSON(http.StatusOK, gin.H{
@@ -145,7 +148,7 @@ func BrandCreate(c *gin.Context) {
 }
 
 //产品更新
-func BrandUpdate(c *gin.Context) {
+func UserUpdate(c *gin.Context) {
 	//获取前端传递的请求更新数据ID
 	IDstr := c.DefaultQuery("ID", "")
 	// 没有传递时，错误响应
@@ -159,7 +162,7 @@ func BrandUpdate(c *gin.Context) {
 	ID, _ := strconv.Atoi(IDstr)
 
 	// 获取需要更新的表数据
-	m := model.Brand{}
+	m := model.User{}
 	m.ID = uint(ID)
 	orm.Find(&m)
 
@@ -182,6 +185,7 @@ func BrandUpdate(c *gin.Context) {
 		})
 		return
 	}
+ 
 
 	//响应正确数据
 	c.JSON(http.StatusOK, gin.H{

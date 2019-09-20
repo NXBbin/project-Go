@@ -11,8 +11,7 @@ type Brand struct {
 
 	Name string
 	Logo string
-	//官网
 	Site string
-	//介绍
 	Description string
+
 }

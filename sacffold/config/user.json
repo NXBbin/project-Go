@@ -1,0 +1,12 @@
+{
+	"title":"用户",
+	"modelName":"User",
+	"fields":[
+		{"name":"User","type":"string","label":"用户名","isList":"yes","isSort":"yes","isFilter":"yes","isSet":"yes"},
+		{"name":"Email","type":"string","label":"邮箱","isList":"yes","isSort":"yes","isFilter":"yes","isSet":"yes"},
+		{"name":"Tel","type":"string","label":"电话","isList":"yes","isSort":"yes","isFilter":"yes","isSet":"yes"},
+		{"name":"Password","type":"string","label":"密码","isList":"no","isSort":"no","isFilter":"no","isSet":"yes"},
+		{"name":"PasswordSalt","type":"string","label":"密码摘要salt","isList":"no","isSort":"no","isFilter":"no","isSet":"yes"},
+		{"name":"Token","type":"string","label":"Token","isList":"no","isSort":"no","isFilter":"no","isSet":"no"}
+	]
+}

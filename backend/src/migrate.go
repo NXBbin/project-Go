@@ -55,13 +55,17 @@ func main() {
 	// 	log.Println("Category已删除，并重新创建")
 	// }
 
-	//迁移（利用模型创建表，migrate）
-	orm.AutoMigrate(&model.Product{})
-	log.Println("Product已创建")
+	// //迁移（利用模型创建表，migrate）
+	// orm.AutoMigrate(&model.Product{})
+	// log.Println("Product已创建")
+
+	// //创建categories产品表
+	// orm.AutoMigrate(&model.Category{})
+	// log.Println("Category已创建")
 
 	//创建categories产品表
-	orm.AutoMigrate(&model.Category{})
-	log.Println("Category已创建")
+	orm.AutoMigrate(&model.User{})
+	log.Println("User已创建")
 
 	// log.Println(orm.Error)
 }

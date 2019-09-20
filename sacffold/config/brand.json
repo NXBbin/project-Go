@@ -1,0 +1,10 @@
+{
+	"title":"品牌",
+	"modelName":"Brand",
+	"fields":[
+		{"name":"Name","type":"string","label":"品牌","isList":"yes","isSort":"yes","isFilter":"yes","isSet":"yes"},
+		{"name":"Logo","type":"string","label":"Logo","isList":"yes","isSort":"no","isFilter":"no","isSet":"yes"},
+		{"name":"Site","type":"string","label":"官网","isList":"yes","isSort":"yes","isFilter":"no","isSet":"yes"},
+		{"name":"Description","type":"string","label":"描述","isList":"no","isSort":"no","isFilter":"no","isSet":"yes"}
+	]
+}

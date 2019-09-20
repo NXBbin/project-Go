@@ -14,4 +14,12 @@
 	
 	r.POST("/brand", controller.BrandCreate)
 
-	r.PUT("/brand", controller.BrandUpdate)
+	r.PUT("/brand", controller.BrandUpdate)	//生成路由代码，脚手架模板
+	//用户 Restful 路由
+	r.GET("/user", controller.UserList)
+
+	r.DELETE("/user", controller.UserDelete)
+	
+	r.POST("/user", controller.UserCreate)
+
+	r.PUT("/user", controller.UserUpdate)

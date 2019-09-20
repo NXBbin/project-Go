@@ -16,6 +16,8 @@ const routes = [
         children: [
             { path: 'category-tree', component: CategoryTree, },
             { path: 'products', component: ()=>import('../components/product/ProductList.vue'), },
+            { path: 'brand', component: ()=>import('../components/brand/BrandList.vue'), },
+            { path: 'user', component: ()=>import('../components/user/UserList.vue'), },
         ]
     },
   ]

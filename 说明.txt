@@ -6,3 +6,8 @@ manager	PC端
 
 2.存放go代码:
 backend 后端
+
+
+3.前端后端公用脚手架代码生成文件夹
+sacffold
+

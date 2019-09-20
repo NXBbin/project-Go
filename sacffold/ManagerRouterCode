@@ -1,0 +1,12 @@
+
+	{ path: 'brand', component: ()=>import('../components/brand/BrandList.vue'), },
+	{ path: 'brand', component: ()=>import('../components/brand/BrandList.vue'), },
+	{ path: 'brand', component: ()=>import('../components/brand/BrandList.vue'), },
+	{ path: 'brand', component: ()=>import('../components/brand/BrandList.vue'), },
+	{ path: 'brand', component: ()=>import('../components/brand/BrandList.vue'), },
+	{ path: 'brand', component: ()=>import('../components/brand/BrandList.vue'), },
+	{ path: 'brand', component: ()=>import('../components/brand/BrandList.vue'), },
+	{ path: 'brand', component: ()=>import('../components/brand/BrandList.vue'), },
+	{ path: 'brand', component: ()=>import('../components/brand/BrandList.vue'), },
+	{ path: 'user', component: ()=>import('../components/user/UserList.vue'), },
+	{ path: 'user', component: ()=>import('../components/user/UserList.vue'), },

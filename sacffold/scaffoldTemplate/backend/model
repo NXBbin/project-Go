@@ -1,0 +1,13 @@
+package model
+
+import (
+	"github.com/jinzhu/gorm"
+)
+
+//%m-title%表模型
+
+type %m-name% struct {
+	gorm.Model
+
+%field-list%
+}

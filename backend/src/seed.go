@@ -41,79 +41,79 @@ func main() {
 	}
 
 	//插入数据前先清空表中数据
-	orm.Exec("truncate a_categories")
-	orm.Exec("truncate a_products")
+	// orm.Exec("truncate a_categories")
+	// orm.Exec("truncate a_products")
 
 	//分类-插入数据测试（seed）
-	orm.Create(&model.Category{
-		Name:     "未分类",
-		ParentId: 0,
-	})
-	orm.Create(&model.Category{
-		Name:     "图书",
-		ParentId: 0,
-	})
-	orm.Create(&model.Category{
-		Name:     "数码产品",
-		ParentId: 0,
-	})
+	// orm.Create(&model.Category{
+	// 	Name:     "未分类",
+	// 	ParentId: 0,
+	// })
+	// orm.Create(&model.Category{
+	// 	Name:     "图书",
+	// 	ParentId: 0,
+	// })
+	// orm.Create(&model.Category{
+	// 	Name:     "数码产品",
+	// 	ParentId: 0,
+	// })
 
-	//产品-插入数据测试（seed）
-	orm.Create(&model.Product{
-		Name:       "纸质书",
-		CategoryID: 2,
-	})
-	orm.Create(&model.Product{
-		Name:       "电子档",
-		CategoryID: 2,
-	})
-	orm.Create(&model.Product{
-		Name:       "电脑",
-		CategoryID: 3,
-	})
-	orm.Create(&model.Product{
-		Name:       "手机",
-		CategoryID: 3,
-	})
-	orm.Create(&model.Product{
-		Name:       "相机",
-		CategoryID: 3,
-	})
-	orm.Create(&model.Product{
-		Name:       "平板",
-		CategoryID: 3,
-	})
-	orm.Create(&model.Product{
-		Name:       "充电宝",
-		CategoryID: 3,
-	})
-	orm.Create(&model.Product{
-		Name:       "电视机",
-		CategoryID: 3,
-	})
-	orm.Create(&model.Product{
-		Name:       "监控设备",
-		CategoryID: 3,
-	})
-	orm.Create(&model.Product{
-		Name:       "网络设备",
-		CategoryID: 3,
-	})
-	orm.Create(&model.Product{
-		Name:       "洗衣机",
-		CategoryID: 3,
-	})
-	orm.Create(&model.Product{
-		Name:       "热水器1",
-		CategoryID: 3,
-	})
-	orm.Create(&model.Product{
-		Name:       "热水器2",
-		CategoryID: 3,
-	})
-	orm.Create(&model.Product{
-		Name:       "热水器3",
-		CategoryID: 3,
+	// //产品-插入数据测试（seed）
+	// orm.Create(&model.Product{
+	// 	Name:       "纸质书",
+	// 	CategoryID: 2,
+	// })
+	// orm.Create(&model.Product{
+	// 	Name:       "电子档",
+	// 	CategoryID: 2,
+	// })
+	// orm.Create(&model.Product{
+	// 	Name:       "电脑",
+	// 	CategoryID: 3,
+	// })
+	// orm.Create(&model.Product{
+	// 	Name:       "手机",
+	// 	CategoryID: 3,
+	// })
+	// orm.Create(&model.Product{
+	// 	Name:       "相机",
+	// 	CategoryID: 3,
+	// })
+	// orm.Create(&model.Product{
+	// 	Name:       "平板",
+	// 	CategoryID: 3,
+	// })
+	// orm.Create(&model.Product{
+	// 	Name:       "充电宝",
+	// 	CategoryID: 3,
+	// })
+	// orm.Create(&model.Product{
+	// 	Name:       "电视机",
+	// 	CategoryID: 3,
+	// })
+	// orm.Create(&model.Product{
+	// 	Name:       "监控设备",
+	// 	CategoryID: 3,
+	// })
+	// orm.Create(&model.Product{
+	// 	Name:       "网络设备",
+	// 	CategoryID: 3,
+	// })
+	// orm.Create(&model.Product{
+	// 	Name:       "洗衣机",
+	// 	CategoryID: 3,
+	// })
+	// orm.Create(&model.Product{
+	// 	Name:       "热水器1",
+	// 	CategoryID: 3,
+	// })
+	// orm.Create(&model.Product{
+	// 	Name:       "热水器2",
+	// 	CategoryID: 3,
+	// })
+
+	orm.Create(&model.User{
+		User: "root",
 	})
 	// log.Println(orm.Error)
 }

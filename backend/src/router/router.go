@@ -48,6 +48,15 @@ func Routerlnit() *gin.Engine {
 
 	r.PUT("/brand", controller.BrandUpdate)
 
+	//用户 Restful 路由
+	r.GET("/user", controller.UserList)
+
+	r.DELETE("/user", controller.UserDelete)
+
+	r.POST("/user", controller.UserCreate)
+
+	r.PUT("/user", controller.UserUpdate)
+
 	//返回路由引擎对象
 	return r
 }
