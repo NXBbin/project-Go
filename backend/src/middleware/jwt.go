@@ -2,6 +2,8 @@ package middleware
 
 import (
 	"bytes"
+	// "fmt"
+	// "model"
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
@@ -47,5 +49,14 @@ func JWTToken(c *gin.Context) {
 	}
 
 	//token 校验通过
-	c.Next()
+	//获取token中包含的用户信息
+	userName := ""
+	if claims, ok := tokenObj.Claims.(jwt.MapClaims); ok {
+		userName = claims["aud"].(string)
+	}
+	//先在中间件存储起来
+	c.Set("userName", userName)
+
+	// 继续执行
+	// c.Next()
 }

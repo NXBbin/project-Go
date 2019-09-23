@@ -12,5 +12,8 @@ type Role struct {
 	Name string
 	SortOrder int
 	Description string
+	
+	// 多对多关联
+	Privileges []Privilege `gorm:"many2many:role_privileges;"`
 
 }

@@ -14,28 +14,6 @@
       </el-col>
     </el-row>
 
-    <el-dialog :title="setDialogTitle" :visible.sync="setDialogVisible">
-      <el-form :model="itemSetForm" ref="itemSetForm" :rules="itemSetRules" label-width="140px">
-        <el-tabs v-model="setDialogActiveName">
-          <el-tab-pane label="基本信息" name="general">
-
-						<el-form-item label="角色" prop="Name">
-							<el-input v-model="itemSetForm.Name"></el-input>
-						</el-form-item>
-						<el-form-item label="排序" prop="SortOrder">
-							<el-input v-model="itemSetForm.SortOrder"></el-input>
-						</el-form-item>
-						<el-form-item label="描述" prop="Description">
-							<el-input v-model="itemSetForm.Description"></el-input>
-						</el-form-item>
-          </el-tab-pane>
-        </el-tabs>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitItemSetForm">提交</el-button>
-      </div>
-    </el-dialog>
-
     <el-row class="main-content">
       <el-col :span="18" class="main-left">
         <el-card class="box-card">
@@ -54,8 +32,8 @@
                 @sort-change="handleSortChange"
               >
                 <el-table-column type="index" width="50"></el-table-column>
-								<el-table-column prop="Name" label="角色" sortable="custom"></el-table-column>
-								<el-table-column prop="SortOrder" label="排序" sortable="custom"></el-table-column>
+                <el-table-column prop="Name" label="角色" sortable="custom"></el-table-column>
+                <el-table-column prop="SortOrder" label="排序" sortable="custom"></el-table-column>
 
                 <el-table-column type="selection" width="55"></el-table-column>
                 <el-table-column fixed="right" label="操作" width="120">
@@ -71,6 +49,12 @@
                       size="small"
                       @click="handleEditItem(scope.$index, scope.row)"
                     >编辑</el-button>
+
+                    <el-button
+                      type="text"
+                      size="small"
+                      @click="handleGrantItem(scope.$index, scope.row)"
+                    >权限</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -100,10 +84,9 @@
           </div>
           <!-- 数据筛选 -->
           <el-form :label-position="'top'" label-width="80px" :model="filterForm">
-
-						<el-form-item label="角色">
-							<el-input v-model="filterForm.filterName"></el-input>
-						</el-form-item>            
+            <el-form-item label="角色">
+              <el-input v-model="filterForm.filterName"></el-input>
+            </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitFilterForm" class="float-right">筛选</el-button>
               <el-button @click="resetFilterForm" class="float-right">重置</el-button>
@@ -112,6 +95,42 @@
         </el-card>
       </el-col>
     </el-row>
+
+    <el-dialog :title="setDialogTitle" :visible.sync="setDialogVisible">
+      <el-form :model="itemSetForm" ref="itemSetForm" :rules="itemSetRules" label-width="140px">
+        <el-tabs v-model="setDialogActiveName">
+          <el-tab-pane label="基本信息" name="general">
+            <el-form-item label="角色" prop="Name">
+              <el-input v-model="itemSetForm.Name"></el-input>
+            </el-form-item>
+            <el-form-item label="排序" prop="SortOrder">
+              <el-input v-model="itemSetForm.SortOrder"></el-input>
+            </el-form-item>
+            <el-form-item label="描述" prop="Description">
+              <el-input v-model="itemSetForm.Description"></el-input>
+            </el-form-item>
+          </el-tab-pane>
+        </el-tabs>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitItemSetForm">提交</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog :title="grantDialogTitle" :visible.sync="grantDialogVisible">
+      <el-form :model="itemGrantForm" ref="itemGrantForm" label-width="140px">
+        <el-checkbox-group v-model="itemGrantForm.Checked">
+          <el-checkbox
+            v-for="pri in itemGrantForm.Privileges"
+            :key="pri.ID"
+            :label="pri.ID"
+          >{{pri.Name}}</el-checkbox>
+        </el-checkbox-group>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitItemGrantForm">提交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -132,11 +151,18 @@ export default {
 
       itemSetOperation: "", //add, edit
       itemSetForm: {},
-      itemSetRules: {
-      },
+      itemSetRules: {},
       setDialogVisible: false,
       setDialogActiveName: "general",
       setDialogTitle: "添加",
+
+      grantDialogVisible: false,
+      grantDialogTitle: "",
+      itemGrantForm: {
+        Privileges: [], // 全部权限
+        Checked: [2, 4] // 已选权限
+      },
+      itemGrant: null
     };
   },
   mounted() {
@@ -263,17 +289,18 @@ export default {
         })
         .catch(() => {});
     },
-
+    // 添加处理器
     handleAddItem() {
       this.itemSetOperation = "add";
       // 设置为新对象
       this.itemSetForm = {
-        SortOrder: 0,
+        SortOrder: 0
       };
 
       this.setDialogVisible = true;
       this.setDialogTitle = "添加";
     },
+    // 编辑处理器
     handleEditItem(index, item) {
       this.itemSetOperation = "edit";
 
@@ -282,6 +309,23 @@ export default {
 
       this.setDialogVisible = true;
       this.setDialogTitle = "编辑";
+    },
+    // 授权处理器
+    handleGrantItem(index, item) {
+      // 记录当前授权的角色对象
+      this.itemGrant = item;
+      // 获取全部权限的请求
+      this.axios
+        .get(base + "privilege-role", {
+          params: {
+            ID: item.ID
+          }
+        })
+        .then(resp => {
+          this.itemGrantForm = resp.data.data;
+          this.grantDialogTitle = `为 ${item.Name} 授权`;
+          this.grantDialogVisible = true;
+        });
     },
     // 提交设置表单
     submitItemSetForm() {
@@ -293,11 +337,11 @@ export default {
         // 校验通过
         // 添加
         if ("add" == this.itemSetOperation) {
-          this.itemSetAdd()
+          this.itemSetAdd();
         }
         // 更新
         else if ("edit" == this.itemSetOperation) {
-          this.itemSetEdit()
+          this.itemSetEdit();
         }
       });
     },
@@ -328,10 +372,28 @@ export default {
             this.$message.error(resp.data.error);
             return;
           }
-          let index = this.items.findIndex(item => item.ID == resp.data.data.ID)
-          this.items[index] = resp.data.data
+          let index = this.items.findIndex(
+            item => item.ID == resp.data.data.ID
+          );
+          this.items[index] = resp.data.data;
           this.$refs["itemSetForm"].resetFields();
           this.setDialogVisible = false;
+        });
+    },
+    // 授权
+    submitItemGrantForm() {
+      let data = new URLSearchParams();
+      for (let id of this.itemGrantForm.Checked) {
+         data.append('checked', id)
+      }
+      this.axios
+        .put(base + "role-grant", data, {
+          params: {
+            ID: this.itemGrant.ID
+          }
+        })
+        .then(resp => {
+          this.grantDialogVisible = false;
         });
     }
   }

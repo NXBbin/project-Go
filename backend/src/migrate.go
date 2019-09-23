@@ -64,16 +64,18 @@ func main() {
 	// log.Println("Category已创建")
 
 	//创建categories产品表
-	// orm.AutoMigrate(&model.User{})
-	// log.Println("User已创建")
+	orm.AutoMigrate(&model.User{})
+	log.Println("User已创建")
 
 	//创建角色表
 	orm.AutoMigrate(&model.Role{})
 	log.Println("Role已创建")
 
 	//创建角色权限表
-	// orm.AutoMigrate(&model.Privilege{})
-	// log.Println("Privilege已创建")
+	orm.AutoMigrate(&model.Privilege{})
+	log.Println("Privilege已创建")
 
-	// log.Println(orm.Error)
+	//创建角色授权关联表
+	orm.AutoMigrate(&model.RolePrivilege{})
+	log.Println("RolePrivilege已创建")
 }

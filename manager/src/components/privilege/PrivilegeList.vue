@@ -275,7 +275,7 @@ export default {
       this.itemSetOperation = "add";
       // 设置为新对象
       this.itemSetForm = {
-		SortOrder:0,
+        SortOrder: 0,
       };
 
       this.setDialogVisible = true;

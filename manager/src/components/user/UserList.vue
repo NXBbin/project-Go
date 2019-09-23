@@ -18,19 +18,28 @@
       <el-form :model="itemSetForm" ref="itemSetForm" :rules="itemSetRules" label-width="140px">
         <el-tabs v-model="setDialogActiveName">
           <el-tab-pane label="基本信息" name="general">
-
-						<el-form-item label="用户名" prop="User">
-							<el-input v-model="itemSetForm.User"></el-input>
-						</el-form-item>
-						<el-form-item label="邮箱" prop="Email">
-							<el-input v-model="itemSetForm.Email"></el-input>
-						</el-form-item>
-						<el-form-item label="电话号码" prop="Tel">
-							<el-input v-model="itemSetForm.Tel"></el-input>
-						</el-form-item>
-						<el-form-item label="密码" prop="Password" v-if="itemSetOperation=='add'">
-							<el-input v-model="itemSetForm.Password"></el-input>
-						</el-form-item>
+            <el-form-item label="用户名" prop="User">
+              <el-input v-model="itemSetForm.User"></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱" prop="Email">
+              <el-input v-model="itemSetForm.Email"></el-input>
+            </el-form-item>
+            <el-form-item label="电话号码" prop="Tel">
+              <el-input v-model="itemSetForm.Tel"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="Password" v-if="itemSetOperation=='add'">
+              <el-input v-model="itemSetForm.Password"></el-input>
+            </el-form-item>
+            <el-form-item label="角色" prop="RoleID">
+              <el-select v-model="itemSetForm.RoleID" placeholder="请选择">
+                <el-option
+                  v-for="item in roles"
+                  :key="item.ID"
+                  :label="item.Name"
+                  :value="item.ID"
+                ></el-option>
+              </el-select>
+            </el-form-item>
           </el-tab-pane>
         </el-tabs>
       </el-form>
@@ -57,9 +66,9 @@
                 @sort-change="handleSortChange"
               >
                 <el-table-column type="index" width="50"></el-table-column>
-								<el-table-column prop="User" label="用户名" sortable="custom"></el-table-column>
-								<el-table-column prop="Email" label="邮箱" sortable="custom"></el-table-column>
-								<el-table-column prop="Tel" label="电话号码" sortable="custom"></el-table-column>
+                <el-table-column prop="User" label="用户名" sortable="custom"></el-table-column>
+                <el-table-column prop="Email" label="邮箱" sortable="custom"></el-table-column>
+                <el-table-column prop="Tel" label="电话号码" sortable="custom"></el-table-column>
 
                 <el-table-column type="selection" width="55"></el-table-column>
                 <el-table-column fixed="right" label="操作" width="120">
@@ -104,16 +113,15 @@
           </div>
           <!-- 数据筛选 -->
           <el-form :label-position="'top'" label-width="80px" :model="filterForm">
-
-						<el-form-item label="用户名">
-							<el-input v-model="filterForm.filterUser"></el-input>
-						</el-form-item>
-						<el-form-item label="邮箱">
-							<el-input v-model="filterForm.filterEmail"></el-input>
-						</el-form-item>
-						<el-form-item label="电话号码">
-							<el-input v-model="filterForm.filterTel"></el-input>
-						</el-form-item>            
+            <el-form-item label="用户名">
+              <el-input v-model="filterForm.filterUser"></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱">
+              <el-input v-model="filterForm.filterEmail"></el-input>
+            </el-form-item>
+            <el-form-item label="电话号码">
+              <el-input v-model="filterForm.filterTel"></el-input>
+            </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitFilterForm" class="float-right">筛选</el-button>
               <el-button @click="resetFilterForm" class="float-right">重置</el-button>
@@ -142,11 +150,11 @@ export default {
 
       itemSetOperation: "", //add, edit
       itemSetForm: {},
-      itemSetRules: {
-      },
+      itemSetRules: {},
       setDialogVisible: false,
       setDialogActiveName: "general",
       setDialogTitle: "添加",
+      roles: [],
     };
   },
   mounted() {
@@ -278,24 +286,26 @@ export default {
       this.itemSetOperation = "add";
       // 设置为新对象
       this.itemSetForm = {
-        Price: 0,
-        Weight: 0,
-        IsSale: 1,
-        IsShipping: 1,
-        IsSubstract: 1
+
       };
 
       this.setDialogVisible = true;
       this.setDialogTitle = "添加";
+
+      this.refreshRoles()
     },
     handleEditItem(index, item) {
       this.itemSetOperation = "edit";
 
       // 设为当前正在编辑的对象
       this.itemSetForm = item;
-
+      if (this.itemSetForm.RoleID == 0) {
+        this.itemSetForm.RoleID = null
+      }
       this.setDialogVisible = true;
       this.setDialogTitle = "编辑";
+
+      this.refreshRoles()
     },
     // 提交设置表单
     submitItemSetForm() {
@@ -307,11 +317,11 @@ export default {
         // 校验通过
         // 添加
         if ("add" == this.itemSetOperation) {
-          this.itemSetAdd()
+          this.itemSetAdd();
         }
         // 更新
         else if ("edit" == this.itemSetOperation) {
-          this.itemSetEdit()
+          this.itemSetEdit();
         }
       });
     },
@@ -342,11 +352,22 @@ export default {
             this.$message.error(resp.data.error);
             return;
           }
-          let index = this.items.findIndex(item => item.ID == resp.data.data.ID)
-          this.items[index] = resp.data.data
+          let index = this.items.findIndex(
+            item => item.ID == resp.data.data.ID
+          );
+          this.items[index] = resp.data.data;
           this.$refs["itemSetForm"].resetFields();
           this.setDialogVisible = false;
         });
+    },
+    refreshRoles(){
+      this.axios.get(base + 'role', {
+        params: {
+          pageSize: -1, // 不需要翻页限制
+        }
+      }).then(resp=>{
+        this.roles = resp.data.data
+      })
     }
   }
 };

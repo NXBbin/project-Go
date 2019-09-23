@@ -12,7 +12,6 @@ import (
 	"os"
 	"regexp"
 	"strings"
-
 	// "github.com/jinzhu/gorm"
 	// _ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -53,16 +52,16 @@ func main() {
 	//模型代码生成
 	genModel()
 
-	// 生成路由代码
-	genRouter()
+	// // 生成路由代码
+	// genRouter()
 
-	//生成控制器代码
-	genController()
+	// //生成控制器代码
+	// genController()
 
-	// # 5 生成前端路由
-	genManagerRouter()
-	// # 6 生成前端组件
-	genManagerCP()
+	// // # 5 生成前端路由
+	// genManagerRouter()
+	// // # 6 生成前端组件
+	// genManagerCP()
 
 }
 
