@@ -22,4 +22,52 @@
 	
 	r.POST("/user", controller.UserCreate)
 
-	r.PUT("/user", controller.UserUpdate)
+	r.PUT("/user", controller.UserUpdate)	//生成路由代码，脚手架模板
+	//用户 Restful 路由
+	r.GET("/user", controller.UserList)
+
+	r.DELETE("/user", controller.UserDelete)
+	
+	r.POST("/user", controller.UserCreate)
+
+	r.PUT("/user", controller.UserUpdate)	//生成路由代码，脚手架模板
+	//用户 Restful 路由
+	r.GET("/user", controller.UserList)
+
+	r.DELETE("/user", controller.UserDelete)
+	
+	r.POST("/user", controller.UserCreate)
+
+	r.PUT("/user", controller.UserUpdate)	//生成路由代码，脚手架模板
+	//角色 Restful 路由
+	r.GET("/role", controller.RoleList)
+
+	r.DELETE("/role", controller.RoleDelete)
+	
+	r.POST("/role", controller.RoleCreate)
+
+	r.PUT("/role", controller.RoleUpdate)	//生成路由代码，脚手架模板
+	//角色 Restful 路由
+	r.GET("/role", controller.RoleList)
+
+	r.DELETE("/role", controller.RoleDelete)
+	
+	r.POST("/role", controller.RoleCreate)
+
+	r.PUT("/role", controller.RoleUpdate)	//生成路由代码，脚手架模板
+	//权限 Restful 路由
+	r.GET("/privilege", controller.PrivilegeList)
+
+	r.DELETE("/privilege", controller.PrivilegeDelete)
+	
+	r.POST("/privilege", controller.PrivilegeCreate)
+
+	r.PUT("/privilege", controller.PrivilegeUpdate)	//生成路由代码，脚手架模板
+	//角色 Restful 路由
+	r.GET("/role", controller.RoleList)
+
+	r.DELETE("/role", controller.RoleDelete)
+	
+	r.POST("/role", controller.RoleCreate)
+
+	r.PUT("/role", controller.RoleUpdate)

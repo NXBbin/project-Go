@@ -10,9 +10,7 @@ Vue.use(ElementUI);
 import router from './router/router.js' 
 
 // axios vue-axios
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-Vue.use(VueAxios, axios)
+import './plugin/axios.js'
 
 // css
 import './assets/manager.css'

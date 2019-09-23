@@ -14,7 +14,7 @@ import (
 	"strings"
 
 	// "github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	// _ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 //脚手架(代码生成器)
@@ -129,7 +129,7 @@ func genManagerCP() {
 	writer.WriteString(code)
 	writer.Flush()
 
-	log.Println("manager 生成的 component 代码位于 components/ 中")
+	log.Println("生成的代码位于 components/ 中")
 }
 
 // 生成前端路由代码
@@ -149,7 +149,7 @@ func genManagerRouter() {
 	writer.WriteString(code)
 	writer.Flush()
 
-	log.Println("manager 生成的 router 代码位于 scaffold/ManagerRouterCode 中，请将代码拷贝到 router/router.js 中。")
+	log.Println("前端路由代码已生成，位于ManagerRouterCode中，请将代码拷贝 ")
 
 }
 

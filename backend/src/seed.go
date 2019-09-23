@@ -115,5 +115,5 @@ func main() {
 	orm.Create(&model.User{
 		User: "root",
 	})
-	// log.Println(orm.Error)
+	log.Println("测试数据生成成功")
 }

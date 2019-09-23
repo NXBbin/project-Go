@@ -166,7 +166,7 @@ export default {
       items: [],
       currentPage: 1,
       pageSize: 10,
-      total: 122,
+      total: 0,
       filterForm: {},
       sortProp: "",
       sortOrder: "",

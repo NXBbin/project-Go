@@ -1,0 +1,10 @@
+{
+	"title":"权限",
+	"modelName":"Privilege",
+	"fields":[
+		{"name":"Name","type":"string","label":"权限名称","isList":"yes","isSort":"yes","isFilter":"yes","isSet":"yes"},
+		{"name":"Key","type":"string","label":"权限标识","isList":"yes","isSort":"yes","isFilter":"yes","isSet":"yes"},
+		{"name":"SortOrder","type":"int","label":"排序","isList":"yes","isSort":"yes","isFilter":"no","isSet":"yes"}	,	
+		{"name":"Description","type":"string","label":"描述","isList":"no","isSort":"no","isFilter":"no","isSet":"yes"}		
+	]
+}

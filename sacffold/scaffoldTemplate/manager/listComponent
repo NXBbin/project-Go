@@ -111,7 +111,7 @@ export default {
       items: [],
       currentPage: 1,
       pageSize: 10,
-      total: 122,
+      total: 0,
       filterForm: {},
       sortProp: "",
       sortOrder: "",
@@ -254,11 +254,6 @@ export default {
       this.itemSetOperation = "add";
       // 设置为新对象
       this.itemSetForm = {
-        Price: 0,
-        Weight: 0,
-        IsSale: 1,
-        IsShipping: 1,
-        IsSubstract: 1
       };
 
       this.setDialogVisible = true;

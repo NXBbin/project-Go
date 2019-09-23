@@ -2,7 +2,7 @@
   <div class>
     <el-row class="main-header">
       <el-col :span="12">
-        <el-page-header content="用户列表"></el-page-header>
+        <el-page-header content="权限列表"></el-page-header>
       </el-col>
 
       <el-col :span="12">
@@ -19,17 +19,17 @@
         <el-tabs v-model="setDialogActiveName">
           <el-tab-pane label="基本信息" name="general">
 
-						<el-form-item label="用户名" prop="User">
-							<el-input v-model="itemSetForm.User"></el-input>
+						<el-form-item label="权限名称" prop="Name">
+							<el-input v-model="itemSetForm.Name"></el-input>
 						</el-form-item>
-						<el-form-item label="邮箱" prop="Email">
-							<el-input v-model="itemSetForm.Email"></el-input>
+						<el-form-item label="权限标识" prop="Key">
+							<el-input v-model="itemSetForm.Key"></el-input>
 						</el-form-item>
-						<el-form-item label="电话号码" prop="Tel">
-							<el-input v-model="itemSetForm.Tel"></el-input>
+						<el-form-item label="排序" prop="SortOrder">
+							<el-input v-model="itemSetForm.SortOrder"></el-input>
 						</el-form-item>
-						<el-form-item label="密码" prop="Password" v-if="itemSetOperation=='add'">
-							<el-input v-model="itemSetForm.Password"></el-input>
+						<el-form-item label="描述" prop="Description">
+							<el-input v-model="itemSetForm.Description"></el-input>
 						</el-form-item>
           </el-tab-pane>
         </el-tabs>
@@ -57,9 +57,9 @@
                 @sort-change="handleSortChange"
               >
                 <el-table-column type="index" width="50"></el-table-column>
-								<el-table-column prop="User" label="用户名" sortable="custom"></el-table-column>
-								<el-table-column prop="Email" label="邮箱" sortable="custom"></el-table-column>
-								<el-table-column prop="Tel" label="电话号码" sortable="custom"></el-table-column>
+								<el-table-column prop="Name" label="权限名称" sortable="custom"></el-table-column>
+								<el-table-column prop="Key" label="权限标识" sortable="custom"></el-table-column>
+								<el-table-column prop="SortOrder" label="排序" sortable="custom"></el-table-column>
 
                 <el-table-column type="selection" width="55"></el-table-column>
                 <el-table-column fixed="right" label="操作" width="120">
@@ -105,14 +105,11 @@
           <!-- 数据筛选 -->
           <el-form :label-position="'top'" label-width="80px" :model="filterForm">
 
-						<el-form-item label="用户名">
-							<el-input v-model="filterForm.filterUser"></el-input>
+						<el-form-item label="权限名称">
+							<el-input v-model="filterForm.filterName"></el-input>
 						</el-form-item>
-						<el-form-item label="邮箱">
-							<el-input v-model="filterForm.filterEmail"></el-input>
-						</el-form-item>
-						<el-form-item label="电话号码">
-							<el-input v-model="filterForm.filterTel"></el-input>
+						<el-form-item label="权限标识">
+							<el-input v-model="filterForm.filterKey"></el-input>
 						</el-form-item>            
             <el-form-item>
               <el-button type="primary" @click="submitFilterForm" class="float-right">筛选</el-button>
@@ -129,13 +126,13 @@
 import base from "../../api/uri.js";
 import { isNull } from "util";
 export default {
-  name: "UserList",
+  name: "PrivilegeList",
   data() {
     return {
       items: [],
       currentPage: 1,
       pageSize: 10,
-      total: 122,
+      total: 0,
       filterForm: {},
       sortProp: "",
       sortOrder: "",
@@ -155,7 +152,7 @@ export default {
   methods: {
     refreshItems(params = {}) {
       this.axios
-        .get(base + "user", {
+        .get(base + "privilege", {
           params
         })
         .then(resp => {
@@ -255,7 +252,7 @@ export default {
         .then(() => {
           // 发出删除请求
           this.axios
-            .delete(base + "user", {
+            .delete(base + "privilege", {
               params: {
                 ID: item.ID
               }
@@ -278,11 +275,7 @@ export default {
       this.itemSetOperation = "add";
       // 设置为新对象
       this.itemSetForm = {
-        Price: 0,
-        Weight: 0,
-        IsSale: 1,
-        IsShipping: 1,
-        IsSubstract: 1
+		SortOrder:0,
       };
 
       this.setDialogVisible = true;
@@ -317,7 +310,7 @@ export default {
     },
     // 添加
     itemSetAdd() {
-      this.axios.post(base + "user", this.itemSetForm).then(resp => {
+      this.axios.post(base + "privilege", this.itemSetForm).then(resp => {
         if (resp.data.error != "") {
           // 失败
           this.$message.error(resp.data.error);
@@ -331,7 +324,7 @@ export default {
     // 编辑
     itemSetEdit() {
       this.axios
-        .put(base + "user", this.itemSetForm, {
+        .put(base + "privilege", this.itemSetForm, {
           params: {
             ID: this.itemSetForm.ID
           }

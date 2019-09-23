@@ -25,7 +25,7 @@
 						<el-form-item label="Logo" prop="Logo">
 							<el-input v-model="itemSetForm.Logo"></el-input>
 						</el-form-item>
-						<el-form-item label="官网" prop="Site">
+						<el-form-item label="网址" prop="Site">
 							<el-input v-model="itemSetForm.Site"></el-input>
 						</el-form-item>
 						<el-form-item label="描述" prop="Description">
@@ -59,7 +59,7 @@
                 <el-table-column type="index" width="50"></el-table-column>
 								<el-table-column prop="Name" label="品牌" sortable="custom"></el-table-column>
 								<el-table-column prop="Logo" label="Logo" ></el-table-column>
-								<el-table-column prop="Site" label="官网" sortable="custom"></el-table-column>
+								<el-table-column prop="Site" label="网址" sortable="custom"></el-table-column>
 
                 <el-table-column type="selection" width="55"></el-table-column>
                 <el-table-column fixed="right" label="操作" width="120">
@@ -129,7 +129,7 @@ export default {
       items: [],
       currentPage: 1,
       pageSize: 10,
-      total: 122,
+      total: 0,
       filterForm: {},
       sortProp: "",
       sortOrder: "",
@@ -293,7 +293,7 @@ export default {
     },
     // 提交设置表单
     submitItemSetForm() {
-      this.$refs["itemSetForm"].validate(valid => {
+      this.$refs["itemSetForm"].validate((valid, fields) => {
         if (!valid) {
           return;
         }

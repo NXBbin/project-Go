@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//产品列表
+//%m-name%列表
 func %c-name%List(c *gin.Context) {
 	//搜索(筛选）
 	condStr := ""
@@ -81,7 +81,7 @@ func %c-name%List(c *gin.Context) {
 	})
 }
 
-//产品删除
+//%m-name%删除
 func %c-name%Delete(c *gin.Context) {
 	//获取前端参数（需要删除的ID）
 	ID := c.DefaultQuery("ID", "")
@@ -110,7 +110,7 @@ func %c-name%Delete(c *gin.Context) {
 	})
 }
 
-//产品添加
+//%m-name%添加
 func %c-name%Create(c *gin.Context) {
 	//确定模型对象（表）
 	m := model.%m-name%{}
@@ -124,7 +124,7 @@ func %c-name%Create(c *gin.Context) {
 		return
 	}
 
-	//判断用户是否有设置Upc数据（Upc是唯一键，不设置会报错）
+	//特定数据设置
 	 
 
 	// 将关联临时关闭，(若不关闭，也会将添加的数据自动添加到关联的表中)，并添加数据
@@ -147,7 +147,7 @@ func %c-name%Create(c *gin.Context) {
 	})
 }
 
-//产品更新
+//%m-name%更新
 func %c-name%Update(c *gin.Context) {
 	//获取前端传递的请求更新数据ID
 	IDstr := c.DefaultQuery("ID", "")
