@@ -53,15 +53,15 @@ func main() {
 	genModel()
 
 	// // 生成路由代码
-	// genRouter()
+	genRouter()
 
 	// //生成控制器代码
-	// genController()
+	genController()
 
 	// // # 5 生成前端路由
-	// genManagerRouter()
+	genManagerRouter()
 	// // # 6 生成前端组件
-	// genManagerCP()
+	genManagerCP()
 
 }
 

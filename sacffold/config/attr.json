@@ -1,0 +1,9 @@
+{
+	"title":"属性",
+	"modelName":"Attr",
+	"fields":[
+		{"name":"AttrGroupID","type":"uint","label":"所属分组","isList":"yes","isSort":"yes","isFilter":"yes","isSet":"yes"},
+		{"name":"Name","type":"string","label":"属性","isList":"yes","isSort":"yes","isFilter":"yes","isSet":"yes"},
+		{"name":"SortOrder","type":"int","label":"排序","isList":"yes","isSort":"yes","isFilter":"no","isSet":"yes"}
+	]
+}

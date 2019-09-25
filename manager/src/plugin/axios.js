@@ -6,11 +6,14 @@ Vue.use(VueAxios, axios)
 
 import router from '../router/router.js'
 
+import store from '../store/store.js'
+
 // 添加请求拦截器
 Vue.axios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     // 当存在 TOKEN 时，将其写入请求 Header
-    let token = window.localStorage.getItem("jwt-token")
+    // let token = window.localStorage.getItem("jwt-token")
+    let token = store.getters.JWTToken
     if (token) {
         config.headers.Authorization = 'Bearer ' + token
     }

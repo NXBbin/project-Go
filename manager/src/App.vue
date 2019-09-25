@@ -8,6 +8,10 @@
 
 export default {
   name: 'app',
+  created() {
+    // 初始化store中的jwttoken
+    this.$store.dispatch("initJWTToken")
+  }
 }
 </script>
 

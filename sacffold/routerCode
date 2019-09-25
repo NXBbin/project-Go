@@ -70,4 +70,44 @@
 	
 	r.POST("/role", controller.RoleCreate)
 
-	r.PUT("/role", controller.RoleUpdate)
+	r.PUT("/role", controller.RoleUpdate)	//生成路由代码，脚手架模板
+	//属性类型 Restful 路由
+	r.GET("/attr-type", controller.AttrTypeList)
+
+	r.DELETE("/attr-type", controller.AttrTypeDelete)
+	
+	r.POST("/attr-type", controller.AttrTypeCreate)
+
+	r.PUT("/attr-type", controller.AttrTypeUpdate)	//生成路由代码，脚手架模板
+	//属性分组 Restful 路由
+	r.GET("/attr-group", controller.AttrGroupList)
+
+	r.DELETE("/attr-group", controller.AttrGroupDelete)
+	
+	r.POST("/attr-group", controller.AttrGroupCreate)
+
+	r.PUT("/attr-group", controller.AttrGroupUpdate)	//生成路由代码，脚手架模板
+	//属性分组 Restful 路由
+	r.GET("/attr-group", controller.AttrGroupList)
+
+	r.DELETE("/attr-group", controller.AttrGroupDelete)
+	
+	r.POST("/attr-group", controller.AttrGroupCreate)
+
+	r.PUT("/attr-group", controller.AttrGroupUpdate)	//生成路由代码，脚手架模板
+	//属性 Restful 路由
+	r.GET("/attr", controller.AttrList)
+
+	r.DELETE("/attr", controller.AttrDelete)
+	
+	r.POST("/attr", controller.AttrCreate)
+
+	r.PUT("/attr", controller.AttrUpdate)	//生成路由代码，脚手架模板
+	//产品属性 Restful 路由
+	r.GET("/product-attr", controller.ProductAttrList)
+
+	r.DELETE("/product-attr", controller.ProductAttrDelete)
+	
+	r.POST("/product-attr", controller.ProductAttrCreate)
+
+	r.PUT("/product-attr", controller.ProductAttrUpdate)

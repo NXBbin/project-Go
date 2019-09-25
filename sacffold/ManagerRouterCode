@@ -16,3 +16,8 @@
 	{ path: 'role', component: ()=>import('../components/role/RoleList.vue'), },
 	{ path: 'privilege', component: ()=>import('../components/privilege/PrivilegeList.vue'), },
 	{ path: 'role', component: ()=>import('../components/role/RoleList.vue'), },
+	{ path: 'attr-type', component: ()=>import('../components/attrType/AttrTypeList.vue'), },
+	{ path: 'attr-group', component: ()=>import('../components/attrGroup/AttrGroupList.vue'), },
+	{ path: 'attr-group', component: ()=>import('../components/attrGroup/AttrGroupList.vue'), },
+	{ path: 'attr', component: ()=>import('../components/attr/AttrList.vue'), },
+	{ path: 'product-attr', component: ()=>import('../components/productAttr/ProductAttrList.vue'), },

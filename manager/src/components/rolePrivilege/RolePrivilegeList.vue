@@ -2,14 +2,14 @@
   <div class>
     <el-row class="main-header">
       <el-col :span="12">
-        <el-page-header content="产品列表"></el-page-header>
+        <el-page-header content="角色授权列表"></el-page-header>
       </el-col>
 
       <el-col :span="12">
         <el-button type="primary" class="float-right" @click="handleAddItem">添加</el-button>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="setDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="submitItemSetForm">确 定</el-button>
+          <el-button @click="setDialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="submitItemSetForm">确定</el-button>
         </div>
       </el-col>
     </el-row>
@@ -18,67 +18,14 @@
       <el-form :model="itemSetForm" ref="itemSetForm" :rules="itemSetRules" label-width="140px">
         <el-tabs v-model="setDialogActiveName">
           <el-tab-pane label="基本信息" name="general">
-            <el-form-item label="产品名称" prop="Name">
-              <el-input v-model="itemSetForm.Name"></el-input>
-            </el-form-item>
-            <el-form-item label="价格" prop="Price">
-              <el-input v-model="itemSetForm.Price"></el-input>
-            </el-form-item>
-            <el-form-item label="所属分类" prop="CategoryID">
-              <el-select v-model="itemSetForm.CategoryID" placeholder="请选择上级分类">
-                <el-option
-                  v-for="item in categoryOptions"
-                  :key="item.ID"
-                  :value="item.ID"
-                  :label="item.Name"
-                >
-                  <span v-bind:style="{ paddingLeft: item.Deep*16 + 'px' }">{{ item.Name }}</span>
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="UPC" prop="Upc">
-              <el-input v-model="itemSetForm.Upc"></el-input>
-            </el-form-item>
-            <el-form-item label="MPN" prop="Mpn">
-              <el-input v-model="itemSetForm.Mpn"></el-input>
-            </el-form-item>
-            <el-form-item label="重量" prop="Weight">
-              <el-input v-model="itemSetForm.Weight"></el-input>
-            </el-form-item>
-            <el-form-item label="描述" prop="Description">
-              <el-input type="textarea" v-model="itemSetForm.Description"></el-input>
-            </el-form-item>
-          </el-tab-pane>
-          <el-tab-pane label="扩展信息" name="extra">
-            <el-form-item label="是否上架" prop="IsSale">
-              <el-checkbox v-model="itemSetForm.IsSale" :true-label="1" :false-label="0">上架</el-checkbox>
-            </el-form-item>
-            <el-form-item label="上架时间" prop="SaleTime">
-              <el-date-picker v-model="itemSetForm.SaleTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
-            </el-form-item>
-            <el-form-item label="是否配送" prop="IsShipping">
-              <el-checkbox v-model="itemSetForm.IsShipping" :true-label="1" :false-label="0">配送</el-checkbox>
-            </el-form-item>
-            <el-form-item label="是否扣减库存" prop="IsSubstract">
-              <el-checkbox v-model="itemSetForm.IsSubstract" :true-label="1" :false-label="0">扣减库存</el-checkbox>
-            </el-form-item>
-          </el-tab-pane>
-          <el-tab-pane label="属性" name="attr">
-            <el-form-item label="属性类型" prop="AttrTypeID">
-              <el-select v-model="itemSetForm.AttrTypeID" placeholder="请选择" @change="handleTypeChange">
-                <el-option v-for="item in types" :key="item.ID" :label="item.Name" :value="item.ID"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-collapse v-model="activeNames">
-              <el-collapse-item v-for="item in groupAttrs" :key="item.ID" :title="item.Name" :name="item.ID">
-                <el-form-item v-for="attr in item.Attrs" :key="attr.ID" :label="attr.Name">
-                  <el-input></el-input>
-                </el-form-item>
-              </el-collapse-item>
-            </el-collapse>
-          </el-tab-pane>
 
-          <el-tab-pane label="SEO 信息" name="seo"></el-tab-pane>
+						<el-form-item label="角色" prop="RoleID">
+							<el-input v-model="itemSetForm.RoleID"></el-input>
+						</el-form-item>
+						<el-form-item label="权限" prop="PrivilegeID">
+							<el-input v-model="itemSetForm.PrivilegeID"></el-input>
+						</el-form-item>
+          </el-tab-pane>
         </el-tabs>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -105,9 +52,6 @@
               >
                 <el-table-column type="index" width="50"></el-table-column>
 
-                <el-table-column prop="Name" label="产品" sortable="custom"></el-table-column>
-                <el-table-column prop="Price" label="价格" sortable="custom"></el-table-column>
-                <el-table-column prop="Category.Name" label="所属分类"></el-table-column>
                 <el-table-column type="selection" width="55"></el-table-column>
                 <el-table-column fixed="right" label="操作" width="120">
                   <template slot-scope="scope">
@@ -151,15 +95,13 @@
           </div>
           <!-- 数据筛选 -->
           <el-form :label-position="'top'" label-width="80px" :model="filterForm">
-            <el-form-item label="产品名称">
-              <el-input v-model="filterForm.filterName"></el-input>
-            </el-form-item>
-            <el-form-item label="分类">
-              <el-input v-model="filterForm.CategoryID"></el-input>
-            </el-form-item>
-            <el-form-item label="价格">
-              <el-input v-model="filterForm.Price"></el-input>
-            </el-form-item>
+
+						<el-form-item label="角色">
+							<el-input v-model="filterForm.filterRoleID"></el-input>
+						</el-form-item>
+						<el-form-item label="权限">
+							<el-input v-model="filterForm.filterPrivilegeID"></el-input>
+						</el-form-item>            
             <el-form-item>
               <el-button type="primary" @click="submitFilterForm" class="float-right">筛选</el-button>
               <el-button @click="resetFilterForm" class="float-right">重置</el-button>
@@ -175,7 +117,7 @@
 import base from "../../api/uri.js";
 import { isNull } from "util";
 export default {
-  name: "ProductList",
+  name: "RolePrivilegeList",
   data() {
     return {
       items: [],
@@ -189,19 +131,10 @@ export default {
       itemSetOperation: "", //add, edit
       itemSetForm: {},
       itemSetRules: {
-        Name: [
-          { required: true, message: "请输入名称", trigger: ["blur", "change"] }
-        ]
       },
       setDialogVisible: false,
       setDialogActiveName: "general",
       setDialogTitle: "添加",
-
-      categoryOptions: [],
-      types: [],
-
-      activeNames: [],
-      groupAttrs: [],
     };
   },
   mounted() {
@@ -210,7 +143,7 @@ export default {
   methods: {
     refreshItems(params = {}) {
       this.axios
-        .get(base + "products", {
+        .get(base + "role-privilege", {
           params
         })
         .then(resp => {
@@ -225,46 +158,6 @@ export default {
             this.items = [];
           }
         });
-    },
-    // 获取全部类型
-    refreshTypes() {
-      this.axios
-        .get(base + "attr-type", {
-          params: {
-            pageSize: -1
-          }
-        })
-        .then(resp => {
-          if (resp.data.error) {
-            this.types = [];
-            this.$message.error(resp.data.error);
-          } else {
-            this.types = resp.data.data;
-          }
-        });
-    },
-    refreshGroupAttrs(typeId) {
-      this.axios
-        .get(base + "attr-group", {
-          params: {
-            pageSize: -1,
-            filterAttrTypeID: typeId,
-            withAttr: "yes",
-          }
-        })
-        .then(resp => {
-          if (resp.data.error) {
-            this.groupAttrs = [];
-            this.activeNames = []
-            this.$message.error(resp.data.error);
-          } else {
-            this.groupAttrs = resp.data.data;
-            this.activeNames = [this.groupAttrs[0].ID]
-          }
-        });
-    },
-    handleTypeChange() {
-      this.refreshGroupAttrs(this.itemSetForm.AttrTypeID)
     },
     // 翻页-size改变
     handleSizeChange(size) {
@@ -350,7 +243,7 @@ export default {
         .then(() => {
           // 发出删除请求
           this.axios
-            .delete(base + "product", {
+            .delete(base + "role-privilege", {
               params: {
                 ID: item.ID
               }
@@ -371,75 +264,43 @@ export default {
 
     handleAddItem() {
       this.itemSetOperation = "add";
-      // 获取当前的分类选项
-      this.refreshCategoryOptions();
       // 设置为新对象
       this.itemSetForm = {
-        Price: 0,
-        Weight: 0,
-        IsSale: 1,
-        IsShipping: 1,
-        IsSubstract: 1
       };
 
       this.setDialogVisible = true;
       this.setDialogTitle = "添加";
-
-      // 获取全部的类型
-      this.refreshTypes();
     },
     handleEditItem(index, item) {
       this.itemSetOperation = "edit";
-      // 获取当前的分类选项
-      this.refreshCategoryOptions();
 
       // 设为当前正在编辑的对象
       this.itemSetForm = item;
 
       this.setDialogVisible = true;
-      this.setDialogTitle = "设置";
-    },
-    refreshCategoryOptions() {
-      this.categoryOptions = [];
-      let url = base + "category-tree";
-      this.axios.get(url).then(resp => {
-        if (resp.data.error == "") {
-          this.indentTree(resp.data.data, 0);
-        }
-      });
-    },
-    indentTree(all, id, deep = 0) {
-      for (let item of all) {
-        if (item.ParentId == id) {
-          item.Deep = deep;
-          this.categoryOptions.push(item);
-          // 存在子分类
-          this.indentTree(all, item.ID, deep + 1);
-        }
-      }
+      this.setDialogTitle = "编辑";
     },
     // 提交设置表单
     submitItemSetForm() {
-      this.$refs["itemSetForm"].validate((valid, fields) => {
+      this.$refs["itemSetForm"].validate(valid => {
         if (!valid) {
-          console.log(fields);
           return;
         }
 
         // 校验通过
         // 添加
         if ("add" == this.itemSetOperation) {
-          this.itemSetAdd();
+          this.itemSetAdd()
         }
         // 更新
         else if ("edit" == this.itemSetOperation) {
-          this.itemSetEdit();
+          this.itemSetEdit()
         }
       });
     },
     // 添加
     itemSetAdd() {
-      this.axios.post(base + "product", this.itemSetForm).then(resp => {
+      this.axios.post(base + "role-privilege", this.itemSetForm).then(resp => {
         if (resp.data.error != "") {
           // 失败
           this.$message.error(resp.data.error);
@@ -453,7 +314,7 @@ export default {
     // 编辑
     itemSetEdit() {
       this.axios
-        .put(base + "product", this.itemSetForm, {
+        .put(base + "role-privilege", this.itemSetForm, {
           params: {
             ID: this.itemSetForm.ID
           }
@@ -464,10 +325,8 @@ export default {
             this.$message.error(resp.data.error);
             return;
           }
-          let index = this.items.findIndex(
-            item => item.ID == resp.data.data.ID
-          );
-          this.items[index] = resp.data.data;
+          let index = this.items.findIndex(item => item.ID == resp.data.data.ID)
+          this.items[index] = resp.data.data
           this.$refs["itemSetForm"].resetFields();
           this.setDialogVisible = false;
         });

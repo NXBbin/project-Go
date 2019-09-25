@@ -1,0 +1,8 @@
+{
+	"title":"属性类型",
+	"modelName":"AttrType",
+	"fields":[
+		{"name":"Name","type":"string","label":"属性类型","isList":"yes","isSort":"yes","isFilter":"yes","isSet":"yes"},
+		{"name":"SortOrder","type":"int","label":"排序","isList":"yes","isSort":"yes","isFilter":"no","isSet":"yes"}
+	]
+}

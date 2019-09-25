@@ -79,6 +79,30 @@ func Routerlnit() *gin.Engine {
 		bg.DELETE("/privilege", controller.PrivilegeDelete)
 		bg.POST("/privilege", controller.PrivilegeCreate)
 		bg.PUT("/privilege", controller.PrivilegeUpdate)
+
+		//属性类型 Restful 路由
+		bg.GET("/attr-type", controller.AttrTypeList)
+		bg.DELETE("/attr-type", controller.AttrTypeDelete)
+		bg.POST("/attr-type", controller.AttrTypeCreate)
+		bg.PUT("/attr-type", controller.AttrTypeUpdate)
+
+		//属性分组 Restful 路由
+		bg.GET("/attr-group", controller.AttrGroupList)
+		bg.DELETE("/attr-group", controller.AttrGroupDelete)
+		bg.POST("/attr-group", controller.AttrGroupCreate)
+		bg.PUT("/attr-group", controller.AttrGroupUpdate)
+
+		//属性 Restful 路由
+		bg.GET("/attr", controller.AttrList)
+		bg.DELETE("/attr", controller.AttrDelete)
+		bg.POST("/attr", controller.AttrCreate)
+		bg.PUT("/attr", controller.AttrUpdate)
+
+		//产品属性 Restful 路由
+		bg.GET("/product-attr", controller.ProductAttrList)
+		bg.DELETE("/product-attr", controller.ProductAttrDelete)
+		bg.POST("/product-attr", controller.ProductAttrCreate)
+		bg.PUT("/product-attr", controller.ProductAttrUpdate)
 	}
 
 	//添加用户状态(登录校验)

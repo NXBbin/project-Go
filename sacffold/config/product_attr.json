@@ -1,0 +1,10 @@
+{
+	"title":"产品属性",
+	"modelName":"ProductAttr",
+	"fields":[
+		{"name":"ProductID","type":"uint","label":"产品","isList":"yes","isSort":"yes","isFilter":"yes","isSet":"yes"},
+		{"name":"AttrID","type":"uint","label":"属性","isList":"yes","isSort":"yes","isFilter":"yes","isSet":"yes"},
+		{"name":"Value","type":"string","label":"值","isList":"yes","isSort":"yes","isFilter":"yes","isSet":"yes"},
+		{"name":"SortOrder","type":"int","label":"排序","isList":"yes","isSort":"yes","isFilter":"no","isSet":"yes"}
+	]
+}

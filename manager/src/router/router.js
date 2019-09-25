@@ -25,6 +25,10 @@ const routes = [
             { path: 'user', component: ()=>import('../components/user/UserList.vue'), },
             { path: 'role', component: ()=>import('../components/role/RoleList.vue'), },
             { path: 'privilege', component: ()=>import('../components/privilege/PrivilegeList.vue'), },
+            { path: 'attr-type', component: ()=>import('../components/attrType/AttrTypeList.vue'), },
+            { path: 'attr-group', component: ()=>import('../components/attrGroup/AttrGroupList.vue'), },
+            { path: 'attr', component: ()=>import('../components/attr/AttrList.vue'), },
+            { path: 'product-attr', component: ()=>import('../components/productAttr/ProductAttrList.vue'), },
         ]
     },
   ]
@@ -33,11 +37,14 @@ const router = new VueRouter({
     routes // (缩写) 相当于 routes: routes
 })
 
+import store from '../store/store'
 // 路由守卫
 // 前置守卫 guard
 router.beforeEach((to, from, next) => {
     // 需要认证，当没有token，则跳转到login
-    if (to.meta.requireAuth && !window.localStorage.getItem("jwt-token")) {
+    let token = store.getters.JWTToken
+    if (to.meta.requireAuth && !token) {
+    // if (to.meta.requireAuth && !window.localStorage.getItem("jwt-token")) {
         next({
             path: '/login',
             query: { redirect: to.fullPath }  

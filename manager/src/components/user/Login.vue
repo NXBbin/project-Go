@@ -57,7 +57,9 @@ export default {
                   return
               }
               // 将token存储到localStorage中
-              window.localStorage.setItem("jwt-token", resp.data.token)
+              // window.localStorage.setItem("jwt-token", resp.data.token)
+              // 使用store分发action的方式存储：
+              this.$store.dispatch("setJWTToken", resp.data.token)
               // 跳转到来源
               let redirect = this.$route.query.redirect ? this.$route.query.redirect : "/"
               this.$router.push(redirect)

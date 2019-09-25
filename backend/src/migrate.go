@@ -78,4 +78,20 @@ func main() {
 	//创建角色授权关联表
 	orm.AutoMigrate(&model.RolePrivilege{})
 	log.Println("RolePrivilege已创建")
+
+	//创建属性类型表
+	orm.AutoMigrate(&model.AttrType{})
+	log.Println("AttrType属性类型表已创建")
+
+	//创建属性分组表
+	orm.AutoMigrate(&model.AttrGroup{})
+	log.Println("AttrGroup属性分组表已创建")
+
+	//创建属性表
+	orm.AutoMigrate(&model.Attr{})
+	log.Println("Attr属性表已创建")
+
+	//创建产品属性表
+	orm.AutoMigrate(&model.ProductAttr{})
+	log.Println("ProductAttr产品属性表已创建")
 }
