@@ -23,10 +23,20 @@ type Product struct {
 	Weight      float64   `gorm:"重量"`
 	Description string    `gorm:"描述"`
 
+	//解析属性值字段,忽略该字段不在表中创建该字段
+	AttrValue map[uint]string `gorm:"-"`
+
 	//关联定义，多个产品关联一个分类
 	//被关联的外键（必须存在一个...ID属性名，否则关联的外键上需要使用targ语法)
 	CategoryID uint
+	AttrTypeID uint
+	GroupID uint
 
 	//产品属于分类
 	Category Category
+
+	// 属性类型
+	AttrType AttrType
+	//产品属性
+	ProductAttrs []ProductAttr
 }

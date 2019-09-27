@@ -3,7 +3,6 @@ package controller
 //产品列表相关功能
 
 import (
-	// "log"
 	"time"
 
 	"model"
@@ -12,6 +11,70 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
+
+//复制
+func ProductCopy(c *gin.Context) {
+	//获取前端传递的产品信息ID
+	IDstr := c.DefaultQuery("ID", "")
+	if IDstr == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"error": "未指定资源ID",
+		})
+		return
+	}
+	ID, _ := strconv.Atoi(IDstr)
+	//获取全部源产品信息
+	src := model.Product{}
+	src.ID = uint(ID)
+	orm.Find(&src)
+	//包含关联数据，（ProductAttr)
+	// orm.Model(&src).Related(&src.ProductAttrs)
+
+	//拷贝新产品
+	dst := src //目标新产品
+	//清理相关的标识属性
+	dst.ID = 0
+	dst.Upc = strconv.Itoa(int(time.Now().UnixNano()))
+	//将新产品数据存入数据库
+	orm.Create(&dst)
+
+	//拷贝关联数据
+	orm.Model(&src).Related(&src.ProductAttrs)
+	//遍历
+	for _, pa := range src.ProductAttrs {
+		dstPa := model.ProductAttr{}
+		//复制关联属性表的数据，并存入数据库
+		dstPa.AttrID = pa.AttrID
+		dstPa.Value = pa.Value
+		dstPa.ProductID = dst.ID
+		orm.Create(&dstPa)
+	}
+	orm.Model(&dst).Related(&dst.ProductAttrs).Related(&dst.Category)
+
+	//保证属性与值的映射关系
+	dst.AttrValue = map[uint]string{}
+	for _, pa := range dst.ProductAttrs {
+		dst.AttrValue[pa.AttrID] = pa.Value
+	}
+	dst.ProductAttrs = nil
+	if !orm.Model(&dst).Related(&dst.AttrType).RecordNotFound() {
+		orm.Model(&dst.AttrType).Related(&dst.AttrType.AttrGroups)
+		for ii, ag := range dst.AttrType.AttrGroups {
+			orm.Model(&ag).Related(&dst.AttrType.AttrGroups[ii].Attrs)
+			for _, a := range dst.AttrType.AttrGroups[ii].Attrs {
+				if _, exists := dst.AttrValue[a.ID]; !exists {
+					dst.AttrValue[a.ID] = ""
+				}
+			}
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"error": "",
+		"data":  dst,
+	})
+
+}
 
 //产品列表
 func ProductList(c *gin.Context) {
@@ -77,6 +140,31 @@ func ProductList(c *gin.Context) {
 	//遍历全部属性，找到关联字段
 	for i, _ := range products {
 		orm.Model(&products[i]).Related(&products[i].Category)
+		// 查询全部产品属性
+		products[i].AttrValue = map[uint]string{}
+		if !orm.Model(&products[i]).Related(&products[i].ProductAttrs).RecordNotFound() {
+			for _, pa := range products[i].ProductAttrs {
+				products[i].AttrValue[pa.AttrID] = pa.Value
+			}
+			products[i].ProductAttrs = nil
+		}
+		//从产品的属性类型考虑，考虑全部属性
+		if !orm.Model(&products[i]).Related(&products[i].AttrType).RecordNotFound() {
+			//存在类型
+			//根据类型确定全部属性分组
+			orm.Model(&products[i].AttrType).Related(&products[i].AttrType.AttrGroups)
+			//通过group找到对应的全部属性
+			for ii, ag := range products[i].AttrType.AttrGroups {
+				//查询到关联的属性
+				orm.Model(&ag).Related(&products[i].AttrType.AttrGroups[ii].Attrs)
+				for _, a := range products[i].AttrType.AttrGroups[ii].Attrs {
+					//得到该产品的全部属性,将不存在的值设置为空
+					if _, exists := products[i].AttrValue[a.ID]; !exists {
+						products[i].AttrValue[a.ID] = ""
+					}
+				}
+			}
+		}
 	}
 
 	//响应
@@ -154,6 +242,37 @@ func ProductCreate(c *gin.Context) {
 		return
 	}
 
+	//product处理成功，处理关联数据
+	//更新product-attr表数据，先获取该表全部属性，再根据前端传递的值，更新对应的字段
+	if !orm.Model(&m).Related(&m.AttrType).RecordNotFound() {
+		//存在类型
+		//根据类型确定全部属性分组
+		orm.Model(&m.AttrType).Related(&m.AttrType.AttrGroups)
+		//通过group找到对应的全部属性
+		for i, ag := range m.AttrType.AttrGroups {
+			//查询到关联的属性
+			orm.Model(&ag).Related(&m.AttrType.AttrGroups[i].Attrs)
+			for _, a := range m.AttrType.AttrGroups[i].Attrs {
+				//根据属性选择更新或插入
+				pa := model.ProductAttr{}
+				if orm.Model(&model.ProductAttr{}).
+					Where("product_id=? AND attr_id=?", m.ID, a.ID).
+					Find(&pa).RecordNotFound() {
+					//不存在
+					pa.Value = m.AttrValue[a.ID]
+					pa.ProductID = m.ID
+					pa.AttrID = a.ID
+					orm.Create(&pa)
+				} else {
+					//已经存在
+					pa.Value = m.AttrValue[a.ID]
+					orm.Save(&pa)
+				}
+			}
+		}
+
+	}
+
 	// 查询相关联的表数据
 	category := model.Category{}
 	//
@@ -206,6 +325,34 @@ func ProductUpdate(c *gin.Context) {
 			"error": orm.Error.Error(),
 		})
 		return
+	}
+
+	if !orm.Model(&m).Related(&m.AttrType).RecordNotFound() {
+		//存在类型
+		//根据类型确定全部属性分组
+		orm.Model(&m.AttrType).Related(&m.AttrType.AttrGroups)
+		//通过group找到对应的全部属性
+		for i, ag := range m.AttrType.AttrGroups {
+			//查询到关联的属性
+			orm.Model(&ag).Related(&m.AttrType.AttrGroups[i].Attrs)
+			for _, a := range m.AttrType.AttrGroups[i].Attrs {
+				//根据属性选择更新或插入
+				pa := model.ProductAttr{}
+				if orm.Model(&model.ProductAttr{}).
+					Where("product_id=? AND attr_id=?", m.ID, a.ID).
+					Find(&pa).RecordNotFound() {
+					//不存在
+					pa.Value = m.AttrValue[a.ID]
+					pa.ProductID = m.ID
+					pa.AttrID = a.ID
+					orm.Create(&pa)
+				} else {
+					//已经存在
+					pa.Value = m.AttrValue[a.ID]
+					orm.Save(&pa)
+				}
+			}
+		}
 	}
 
 	// 查询相关联的表

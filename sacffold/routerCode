@@ -110,4 +110,12 @@
 	
 	r.POST("/product-attr", controller.ProductAttrCreate)
 
-	r.PUT("/product-attr", controller.ProductAttrUpdate)
+	r.PUT("/product-attr", controller.ProductAttrUpdate)	//生成路由代码，脚手架模板
+	//分组 Restful 路由
+	r.GET("/group", controller.GroupList)
+
+	r.DELETE("/group", controller.GroupDelete)
+	
+	r.POST("/group", controller.GroupCreate)
+
+	r.PUT("/group", controller.GroupUpdate)

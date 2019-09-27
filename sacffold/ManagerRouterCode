@@ -21,3 +21,4 @@
 	{ path: 'attr-group', component: ()=>import('../components/attrGroup/AttrGroupList.vue'), },
 	{ path: 'attr', component: ()=>import('../components/attr/AttrList.vue'), },
 	{ path: 'product-attr', component: ()=>import('../components/productAttr/ProductAttrList.vue'), },
+	{ path: 'group', component: ()=>import('../components/group/GroupList.vue'), },

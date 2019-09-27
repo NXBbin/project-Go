@@ -1,0 +1,9 @@
+{
+	"title":"分组",
+	"modelName":"Group",
+	"fields":[
+		{"name":"Counter","type":"int","label":"产品数量","isList":"yes","isSort":"yes","isFilter":"yes","isSet":"yes"},
+		{"name":"Name","type":"string","label":"组名","isList":"yes","isSort":"yes","isFilter":"yes","isSet":"yes"},
+		{"name":"SortOrder","type":"int","label":"排序","isList":"yes","isSort":"yes","isFilter":"no","isSet":"yes"}
+	]
+}

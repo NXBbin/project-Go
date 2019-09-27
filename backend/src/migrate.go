@@ -56,8 +56,8 @@ func main() {
 	// }
 
 	// //迁移（利用模型创建表，migrate）
-	// orm.AutoMigrate(&model.Product{})
-	// log.Println("Product已创建")
+	orm.AutoMigrate(&model.Product{})
+	log.Println("Product已创建")
 
 	// //创建categories产品表
 	// orm.AutoMigrate(&model.Category{})
@@ -94,4 +94,8 @@ func main() {
 	//创建产品属性表
 	orm.AutoMigrate(&model.ProductAttr{})
 	log.Println("ProductAttr产品属性表已创建")
+
+	//创建分组表
+	orm.AutoMigrate(&model.Group{})
+	log.Println("Group分组表已创建")
 }

@@ -50,6 +50,8 @@ func Routerlnit() *gin.Engine {
 		bg.POST("product", middleware.Require("product-manager"), controller.ProductCreate)
 		//更新产品
 		bg.PUT("product", middleware.Require("product-manager"), controller.ProductUpdate)
+		//复制
+		bg.POST("product-copy", middleware.Require("product-manager"), controller.ProductCopy)
 
 		//生成路由代码，脚手架模板
 		//品牌 Restful 路由
@@ -103,6 +105,12 @@ func Routerlnit() *gin.Engine {
 		bg.DELETE("/product-attr", controller.ProductAttrDelete)
 		bg.POST("/product-attr", controller.ProductAttrCreate)
 		bg.PUT("/product-attr", controller.ProductAttrUpdate)
+
+		//分组 Restful 路由
+		bg.GET("/group", controller.GroupList)
+		bg.DELETE("/group", controller.GroupDelete)
+		bg.POST("/group", controller.GroupCreate)
+		bg.PUT("/group", controller.GroupUpdate)
 	}
 
 	//添加用户状态(登录校验)

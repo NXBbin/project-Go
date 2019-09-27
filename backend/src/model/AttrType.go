@@ -9,7 +9,9 @@ import (
 type AttrType struct {
 	gorm.Model
 
-	Name string
+	Name      string
 	SortOrder int
 
+	//关联属性分组
+	AttrGroups []AttrGroup
 }
