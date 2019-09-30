@@ -8,9 +8,10 @@ import (
 	"github.com/gin-gonic/gin"
 
 	// "github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
 	"model"
+
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 //分类树
@@ -109,10 +110,6 @@ func CategoryUpdate(c *gin.Context) {
 	})
 
 }
-
-
-
-
 
 // //DAO分类树
 // func CategoryTree(c *gin.Context) {

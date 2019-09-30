@@ -18,16 +18,54 @@
       <el-form :model="itemSetForm" ref="itemSetForm" :rules="itemSetRules" label-width="140px">
         <el-tabs v-model="setDialogActiveName">
           <el-tab-pane label="基本信息" name="general">
+            <el-form-item label="组名" prop="Name">
+              <el-input v-model="itemSetForm.Name"></el-input>
+            </el-form-item>
+            <el-form-item label="排序" prop="SortOrder">
+              <el-input v-model.number="itemSetForm.SortOrder"></el-input>
+            </el-form-item>
+          </el-tab-pane>
 
-						<el-form-item label="产品数量" prop="Counter">
-							<el-input v-model="itemSetForm.Counter"></el-input>
-						</el-form-item>
-						<el-form-item label="组名" prop="Name">
-							<el-input v-model="itemSetForm.Name"></el-input>
-						</el-form-item>
-						<el-form-item label="排序" prop="SortOrder">
-							<el-input v-model="itemSetForm.SortOrder"></el-input>
-						</el-form-item>
+          <el-tab-pane label="属性" name="attr">
+            <el-form-item label="属性类型" prop="AttrTypeID">
+              <el-select
+                v-model="itemSetForm.AttrTypeID"
+                placeholder="请选择"
+                @change="handleTypeChange"
+              >
+                <el-option v-for="item in types" :key="item.ID" :label="item.Name" :value="item.ID"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-collapse v-model="activeNames">
+              <el-collapse-item
+                v-for="item in groupAttrs"
+                :key="item.ID"
+                :title="item.Name"
+                :name="item.ID"
+              >
+                <el-form-item>
+                  <el-checkbox-group v-model="CheckedAttrID">
+                    <el-checkbox
+                      v-for="attr in item.Attrs"
+                      :key="attr.ID"
+                      :label="attr.ID"
+                    >{{attr.Name}}</el-checkbox>
+                  </el-checkbox-group>
+                </el-form-item>
+              </el-collapse-item>
+            </el-collapse>
+          </el-tab-pane>
+
+          <el-tab-pane label="组内产品" name="product">
+            <el-transfer
+              filterable
+              :titles="['产品列表', this.itemSetForm.Name]"
+              :button-texts="['出组', '入组']"
+              :filter-method="filterMethod"
+              filter-placeholder="请输入城市拼音"
+              v-model="itemSetForm.CheckedProductID"
+              :data="products"
+            ></el-transfer>
           </el-tab-pane>
         </el-tabs>
       </el-form>
@@ -54,9 +92,9 @@
                 @sort-change="handleSortChange"
               >
                 <el-table-column type="index" width="50"></el-table-column>
-								<el-table-column prop="Counter" label="产品数量" sortable="custom"></el-table-column>
-								<el-table-column prop="Name" label="组名" sortable="custom"></el-table-column>
-								<el-table-column prop="SortOrder" label="排序" sortable="custom"></el-table-column>
+                <el-table-column prop="Counter" label="产品数量" sortable="custom"></el-table-column>
+                <el-table-column prop="Name" label="组名" sortable="custom"></el-table-column>
+                <el-table-column prop="SortOrder" label="排序" sortable="custom"></el-table-column>
 
                 <el-table-column type="selection" width="55"></el-table-column>
                 <el-table-column fixed="right" label="操作" width="120">
@@ -101,13 +139,12 @@
           </div>
           <!-- 数据筛选 -->
           <el-form :label-position="'top'" label-width="80px" :model="filterForm">
-
-						<el-form-item label="产品数量">
-							<el-input v-model="filterForm.filterCounter"></el-input>
-						</el-form-item>
-						<el-form-item label="组名">
-							<el-input v-model="filterForm.filterName"></el-input>
-						</el-form-item>            
+            <el-form-item label="产品数量">
+              <el-input v-model="filterForm.filterCounter"></el-input>
+            </el-form-item>
+            <el-form-item label="组名">
+              <el-input v-model="filterForm.filterName"></el-input>
+            </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitFilterForm" class="float-right">筛选</el-button>
               <el-button @click="resetFilterForm" class="float-right">重置</el-button>
@@ -136,17 +173,93 @@ export default {
 
       itemSetOperation: "", //add, edit
       itemSetForm: {},
-      itemSetRules: {
-      },
+      itemSetRules: {},
       setDialogVisible: false,
       setDialogActiveName: "general",
       setDialogTitle: "添加",
+
+      products: [],
+
+      types: [],
+      groupAttrs: [],
+      activeNames: [],
+
+      CheckedAttrID: [],
     };
   },
   mounted() {
     this.refreshItems();
   },
   methods: {
+    // 获取全部类型
+    refreshTypes() {
+      this.axios
+        .get(base + "attr-type", {
+          params: {
+            pageSize: -1
+          }
+        })
+        .then(resp => {
+          if (resp.data.error) {
+            this.types = [];
+            this.$message.error(resp.data.error);
+          } else {
+            this.types = resp.data.data;
+          }
+        });
+    },
+    refreshGroupAttrs(typeId) {
+      this.axios
+        .get(base + "attr-group", {
+          params: {
+            pageSize: -1,
+            filterAttrTypeID: typeId,
+            withAttr: "yes"
+          }
+        })
+        .then(resp => {
+          if (resp.data.error) {
+            this.groupAttrs = [];
+            this.CheckedAttrID = []
+            this.activeNames = [];
+            this.$message.error(resp.data.error);
+          } else {
+            this.groupAttrs = resp.data.data;
+            this.activeNames = []
+            resp.data.data.forEach(element => {
+              this.activeNames.push(element.ID)
+            })
+          }
+        });
+    },
+    handleTypeChange() {
+      this.refreshGroupAttrs(this.itemSetForm.AttrTypeID);
+    },
+    filterMethod(query, item) {
+      return true;
+    },
+    refreshProducts() {
+      this.axios
+        .get(base + "products", {
+          params: {
+            pageSize: -1
+          }
+        })
+        .then(resp => {
+          if (resp.data.error) {
+            this.$$message.error(resp.data.error);
+            this.products = [];
+            return;
+          }
+          this.products = [];
+          resp.data.data.forEach(element => {
+            this.products.push({
+              label: element.Name,
+              key: element.ID
+            });
+          });
+        });
+    },
     refreshItems(params = {}) {
       this.axios
         .get(base + "group", {
@@ -272,19 +385,31 @@ export default {
       this.itemSetOperation = "add";
       // 设置为新对象
       this.itemSetForm = {
+        SortOrder: 0
       };
 
       this.setDialogVisible = true;
       this.setDialogTitle = "添加";
+
+      this.refreshProducts();
+      // 获取全部的类型
+      this.refreshTypes();
     },
     handleEditItem(index, item) {
       this.itemSetOperation = "edit";
 
       // 设为当前正在编辑的对象
       this.itemSetForm = item;
+      this.CheckedAttrID = item.CheckedAttrID
 
       this.setDialogVisible = true;
       this.setDialogTitle = "编辑";
+
+      this.refreshProducts();
+      // 获取全部的类型
+      this.refreshTypes();
+      // 展示已有的属性
+      this.refreshGroupAttrs(this.itemSetForm.AttrTypeID)
     },
     // 提交设置表单
     submitItemSetForm() {
@@ -296,11 +421,11 @@ export default {
         // 校验通过
         // 添加
         if ("add" == this.itemSetOperation) {
-          this.itemSetAdd()
+          this.itemSetAdd();
         }
         // 更新
         else if ("edit" == this.itemSetOperation) {
-          this.itemSetEdit()
+          this.itemSetEdit();
         }
       });
     },
@@ -320,7 +445,9 @@ export default {
     // 编辑
     itemSetEdit() {
       this.axios
-        .put(base + "group", this.itemSetForm, {
+        .put(base + "group", 
+        Object.assign(this.itemSetForm, {CheckedAttrID: this.CheckedAttrID}), 
+        {
           params: {
             ID: this.itemSetForm.ID
           }
@@ -331,8 +458,10 @@ export default {
             this.$message.error(resp.data.error);
             return;
           }
-          let index = this.items.findIndex(item => item.ID == resp.data.data.ID)
-          this.items[index] = resp.data.data
+          let index = this.items.findIndex(
+            item => item.ID == resp.data.data.ID
+          );
+          this.items[index] = resp.data.data;
           this.$refs["itemSetForm"].resetFields();
           this.setDialogVisible = false;
         });

@@ -2,11 +2,12 @@ package controller
 
 //Group 表控制器（增删改查）代码，脚手架模板
 
-
 import (
+	// "log"
 	"model"
 	"net/http"
 	"strconv"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -63,7 +64,22 @@ func GroupList(c *gin.Context) {
 	//获取展示数量和偏移量,输出数据获
 	orm.Where(condStr, condParams).Order(orderStr).Limit(pageSize).Offset(offset).Find(&ms)
 	//遍历全部属性，找到关联字段
-	 
+	for i, m := range ms {
+		//关联产品分组
+		orm.Model(&m).Related(&ms[i].Products)
+		ms[i].CheckedProductID = []uint{}
+		for _, p := range ms[i].Products {
+			ms[i].CheckedProductID = append(ms[i].CheckedProductID, p.ID)
+		}
+
+		//关联差异属性（查询多对多关联）
+		// orm.Model(&m).Related(&ms[i].Attrs,"Attrs")
+		orm.Model(&m).Association("Attrs").Find(&ms[i].Attrs)
+		ms[i].CheckedAttrID = []uint{}
+		for _, a := range ms[i].Attrs {
+			ms[i].CheckedAttrID = append(ms[i].CheckedAttrID, a.ID)
+		}
+	}
 
 	//响应
 	c.JSON(http.StatusOK, gin.H{
@@ -125,7 +141,6 @@ func GroupCreate(c *gin.Context) {
 	}
 
 	//特定数据设置
-	 
 
 	// 将关联临时关闭，(若不关闭，也会将添加的数据自动添加到关联的表中)，并添加数据
 	orm.Set("gorm:save_associations", false).Create(&m)
@@ -137,8 +152,11 @@ func GroupCreate(c *gin.Context) {
 		return
 	}
 
-	// 查询相关联的表数据
-	 
+	//获取需要分组的ID
+	if len(m.CheckedProductID) > 0 {
+		//将用户选中的产品更新到一组
+		orm.Model(&model.Product{}).Where("id in (?)", m.CheckedProductID).Update("group_id", m.ID)
+	}
 
 	//响应正确数据
 	c.JSON(http.StatusOK, gin.H{
@@ -176,6 +194,25 @@ func GroupUpdate(c *gin.Context) {
 		return
 	}
 
+	//获取需要分组的ID
+	if len(m.CheckedProductID) > 0 {
+		//将用户选中的产品更新到一组
+		orm.Model(&model.Product{}).Where("id in (?)", m.CheckedProductID).Update("group_id", m.ID)
+	}
+
+	//处理差异属性
+	if len(m.CheckedAttrID) > 0 {
+		//构建[]Attr
+		as := []model.Attr{}
+		for _, aID := range m.CheckedAttrID {
+			a := model.Attr{}
+			a.ID = aID
+			as = append(as, a)
+		}
+		// 利用多对多关联替换
+		orm.Model(&m).Association("Attrs").Replace(as)
+	}
+
 	// 临时取消关联,并更新数据
 	orm.Set("gorm:save_associations", false).Save(&m)
 	if orm.Error != nil {
@@ -185,7 +222,6 @@ func GroupUpdate(c *gin.Context) {
 		})
 		return
 	}
- 
 
 	//响应正确数据
 	c.JSON(http.StatusOK, gin.H{

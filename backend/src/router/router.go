@@ -111,6 +111,9 @@ func Routerlnit() *gin.Engine {
 		bg.DELETE("/group", controller.GroupDelete)
 		bg.POST("/group", controller.GroupCreate)
 		bg.PUT("/group", controller.GroupUpdate)
+		
+		//图像上传
+		bg.POST("/image-upload",controller.ImageUpload)
 	}
 
 	//添加用户状态(登录校验)

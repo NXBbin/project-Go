@@ -65,17 +65,39 @@
           </el-tab-pane>
           <el-tab-pane label="属性" name="attr">
             <el-form-item label="属性类型" prop="AttrTypeID">
-              <el-select v-model="itemSetForm.AttrTypeID" placeholder="请选择" @change="handleTypeChange">
+              <el-select
+                v-model="itemSetForm.AttrTypeID"
+                placeholder="请选择"
+                @change="handleTypeChange"
+              >
                 <el-option v-for="item in types" :key="item.ID" :label="item.Name" :value="item.ID"></el-option>
               </el-select>
             </el-form-item>
             <el-collapse v-model="activeNames">
-              <el-collapse-item v-for="item in groupAttrs" :key="item.ID" :title="item.Name" :name="item.ID">
+              <el-collapse-item
+                v-for="item in groupAttrs"
+                :key="item.ID"
+                :title="item.Name"
+                :name="item.ID"
+              >
                 <el-form-item v-for="attr in item.Attrs" :key="attr.ID" :label="attr.Name">
                   <el-input v-model="itemSetForm.AttrValue[attr.ID]"></el-input>
                 </el-form-item>
               </el-collapse-item>
             </el-collapse>
+          </el-tab-pane>
+
+          <el-tab-pane label="图像" name="image">
+            <el-upload
+              :action="base + 'image-upload'"
+              :headers="uploadHeaders"
+              list-type="picture-card"
+              :file-list="itemSetForm.imageList"
+              :on-success="handleUploadSuccess"
+              :before-upload="handleUploadBefore"
+            >
+              <i class="el-icon-plus"></i>
+            </el-upload>
           </el-tab-pane>
 
           <el-tab-pane label="SEO 信息" name="seo"></el-tab-pane>
@@ -128,7 +150,6 @@
                       size="small"
                       @click="handleCopyItem(scope.$index, scope.row)"
                     >复制</el-button>
-
                   </template>
                 </el-table-column>
               </el-table>
@@ -181,10 +202,15 @@
 <script>
 import base from "../../api/uri.js";
 import { isNull } from "util";
+// import { type } from 'os';     ////+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 export default {
   name: "ProductList",
   data() {
     return {
+      base,
+      uploadHeaders: {
+        Authorization: "Bearer " + this.$store.getters.JWTToken
+      },
       items: [],
       currentPage: 1,
       pageSize: 10,
@@ -205,21 +231,39 @@ export default {
       setDialogTitle: "添加",
 
       categoryOptions: [],
-      types: [],
 
+      types: [],
       activeNames: [],
-      groupAttrs: [],
-      // attrValue: new Map(),
+      groupAttrs: []
     };
   },
   mounted() {
     this.refreshItems();
   },
   methods: {
+    handleUploadSuccess(response, file) {
+      if (!this.itemSetForm.UploadedImage) {
+        this.itemSetForm.UploadedImage = [];
+        // this.itemSetForm.UploadedImageSmall = [];
+        // this.itemSetForm.UploadedImageBig = [];
+      }
+      this.itemSetForm.UploadedImage.push(response.data.filename);
+      // this.itemSetForm.UploadedImage.push(response.data.Image);
+      // this.itemSetForm.UploadedImageSmall.push(response.data.ImageSmall);
+      // this.itemSetForm.UploadedImageBig.push(response.data.ImageBig);
+    },
+    handleUploadBefore(file) {
+      let types = ['image/jpeg', 'image/png', 'image/gif']
+      if (! types.includes(file.type)) {
+        this.$message.error('必须上传图像')
+        return false
+      }
+      return true
+    },
     refreshItems(params = {}) {
       this.axios
         .get(base + "products", {
-          params,
+          params
         })
         .then(resp => {
           if (resp.data.error == "") {
@@ -257,22 +301,24 @@ export default {
           params: {
             pageSize: -1,
             filterAttrTypeID: typeId,
-            withAttr: "yes",
+            withAttr: "yes"
           }
         })
         .then(resp => {
           if (resp.data.error) {
             this.groupAttrs = [];
-            this.activeNames = []
+            this.activeNames = [];
             this.$message.error(resp.data.error);
           } else {
             this.groupAttrs = resp.data.data;
-            this.activeNames = this.groupAttrs[0]?[this.groupAttrs[0].ID]:[]
+            this.activeNames = this.groupAttrs[0]
+              ? [this.groupAttrs[0].ID]
+              : [];
           }
         });
     },
     handleTypeChange() {
-      this.refreshGroupAttrs(this.itemSetForm.AttrTypeID)
+      this.refreshGroupAttrs(this.itemSetForm.AttrTypeID);
     },
     // 翻页-size改变
     handleSizeChange(size) {
@@ -388,7 +434,7 @@ export default {
         IsSale: 1,
         IsShipping: 1,
         IsSubstract: 1,
-        AttrValue: {},
+        AttrValue: {}
       };
 
       this.setDialogVisible = true;
@@ -398,13 +444,20 @@ export default {
       this.refreshTypes();
     },
     handleEditItem(index, item) {
-      console.log(index, item)
       this.itemSetOperation = "edit";
       // 获取当前的分类选项
       this.refreshCategoryOptions();
 
       // 设为当前正在编辑的对象
       this.itemSetForm = item;
+      this.itemSetForm.imageList = [];
+      item.Images.forEach(element => {
+        this.itemSetForm.imageList.push({
+          name: element.Image,
+          url: element.Host + element.Image
+          // url: element.Host + element.ImageSmall
+        });
+      });
 
       this.setDialogVisible = true;
       this.setDialogTitle = "设置";
@@ -412,7 +465,7 @@ export default {
       // 获取全部的类型
       this.refreshTypes();
       // 展示已有的属性
-      this.refreshGroupAttrs(this.itemSetForm.AttrTypeID)
+      this.refreshGroupAttrs(this.itemSetForm.AttrTypeID);
     },
     refreshCategoryOptions() {
       this.categoryOptions = [];
@@ -435,9 +488,8 @@ export default {
     },
     // 提交设置表单
     submitItemSetForm() {
-      this.$refs["itemSetForm"].validate((valid, fields) => {
+      this.$refs["itemSetForm"].validate(valid => {
         if (!valid) {
-          console.log(fields);
           return;
         }
 
@@ -489,18 +541,24 @@ export default {
     },
     // 处理复制
     handleCopyItem(index, item) {
-      this.axios.post(base + 'product-copy', {}, {
-        params: {
-          ID: item.ID,
-        }
-      }).then(resp => {
-        if (resp.data.error) {
-          this.$message.error(resp.data.error)
-          return
-        }
-        this.items.push(resp.data.data)
-        this.$message.success("复制成功")
-      })
+      this.axios
+        .post(
+          base + "product-copy",
+          {},
+          {
+            params: {
+              ID: item.ID
+            }
+          }
+        )
+        .then(resp => {
+          if (resp.data.error) {
+            this.$message.error(resp.data.error);
+            return;
+          }
+          this.items.push(resp.data.data);
+          this.$message.success("复制成功");
+        });
     }
   }
 };

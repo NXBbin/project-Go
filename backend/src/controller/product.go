@@ -3,6 +3,7 @@ package controller
 //产品列表相关功能
 
 import (
+	"config"
 	"time"
 
 	"model"
@@ -165,6 +166,10 @@ func ProductList(c *gin.Context) {
 				}
 			}
 		}
+
+		//查询关联图像
+		products[i].Images = []model.Image{}
+		orm.Model(&products[i]).Related(&products[i].Images)
 	}
 
 	//响应
@@ -327,6 +332,7 @@ func ProductUpdate(c *gin.Context) {
 		return
 	}
 
+	//更新product-attr表数据，先获取该产品应具有的属性，形成对应的记录，若存在更新置，则执行更新
 	if !orm.Model(&m).Related(&m.AttrType).RecordNotFound() {
 		//存在类型
 		//根据类型确定全部属性分组
@@ -353,6 +359,16 @@ func ProductUpdate(c *gin.Context) {
 				}
 			}
 		}
+	}
+
+	//更新image表
+	for _, img := range m.UploadedImage {
+		//存储格式：a/b/xxxx.jpg
+		image := model.Image{}
+		image.ProductID = m.ID
+		image.Host = config.App["IMAGE_HOST"]
+		image.Image = string(img[0]) + "/" + string(img[1]) + "/" + img
+		orm.Create(&image)
 	}
 
 	// 查询相关联的表

@@ -17,5 +17,9 @@ func InitConfig() {
 		"MYSQL_LOC":       "Local",
 		"MYSQL_PARSETIME": "true", //false默认，不执行time的解析
 		"SERVER_ADDR":     ":8088",
+		//存储上传文件的路径
+		"UPLOAD_PATH": "D:\\demo\\GO-project\\project-Go\\upload\\",
+		//静态资源服务器
+		"IMAGE_HOST": "http://localhost:8099/",
 	}
 }

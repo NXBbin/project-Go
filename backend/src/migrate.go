@@ -59,11 +59,11 @@ func main() {
 	orm.AutoMigrate(&model.Product{})
 	log.Println("Product已创建")
 
-	// //创建categories产品表
-	// orm.AutoMigrate(&model.Category{})
-	// log.Println("Category已创建")
-
 	//创建categories产品表
+	orm.AutoMigrate(&model.Category{})
+	log.Println("Category已创建")
+
+	// 创建categories产品表
 	orm.AutoMigrate(&model.User{})
 	log.Println("User已创建")
 
@@ -71,7 +71,7 @@ func main() {
 	orm.AutoMigrate(&model.Role{})
 	log.Println("Role已创建")
 
-	//创建角色权限表
+	// 创建角色权限表
 	orm.AutoMigrate(&model.Privilege{})
 	log.Println("Privilege已创建")
 
@@ -83,7 +83,7 @@ func main() {
 	orm.AutoMigrate(&model.AttrType{})
 	log.Println("AttrType属性类型表已创建")
 
-	//创建属性分组表
+	// 创建属性分组表
 	orm.AutoMigrate(&model.AttrGroup{})
 	log.Println("AttrGroup属性分组表已创建")
 
@@ -98,4 +98,12 @@ func main() {
 	//创建分组表
 	orm.AutoMigrate(&model.Group{})
 	log.Println("Group分组表已创建")
+
+	//创建分组表
+	orm.AutoMigrate(&model.GroupAttr{})
+	log.Println("GroupAttr分组差异属性表已创建")
+
+	//创建产品图像表
+	orm.AutoMigrate(&model.Image{})
+	log.Println("Image产品图像表已创建")
 }
