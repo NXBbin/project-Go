@@ -120,8 +120,9 @@ func Routerlnit() *gin.Engine {
 	r.POST("/user/auth", controller.UserAuth)
 
 	//webAPP项目路由
-	r.GET("product-promote",controller.ProductPromote)
-	r.GET("product-info",controller.ProductInfo)
+	r.GET("product-promote", controller.ProductPromote)
+	r.GET("product-info", controller.ProductInfo)
+	r.GET("cart-product", controller.CartProduct)
 
 	//返回路由引擎对象
 	return r

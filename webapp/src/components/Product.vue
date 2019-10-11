@@ -41,8 +41,8 @@
 
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" @click="sorry">客服</van-goods-action-icon>
-      <van-goods-action-icon icon="cart-o" @click="onClickCart">购物车</van-goods-action-icon>
-      <van-goods-action-button type="warning" @click="sorry">加入购物车</van-goods-action-button>
+      <van-goods-action-icon icon="cart-o" :info="buyQuantityTotal" @click="handleClickCart">购物车</van-goods-action-icon>
+      <van-goods-action-button type="warning" @click="addToCart(product.ID)">加入购物车</van-goods-action-button>
       <van-goods-action-button type="danger" @click="sorry">立即购买</van-goods-action-button>
     </van-goods-action>
   </div>
@@ -84,22 +84,15 @@ export default {
   data() {
     return {
       staticBase,
-      goods: {
-        title: "美国伽力果（约680g/3个）",
-        price: 2680,
-        express: "免运费",
-        remain: 19,
-        thumb: [
-          "https://img.yzcdn.cn/public_files/2017/10/24/e5a5a02309a41f9f5def56684808d9ae.jpeg",
-          "https://img.yzcdn.cn/public_files/2017/10/24/1791ba14088f9c2be8c610d0a6cc0f93.jpeg"
-        ]
-      },
       product: {},
-      selectModelShow: false
+      selectModelShow: false,
+      buyQuantityTotal: null,
     };
   },
   mounted() {
     this.refreshProduct(this.$route.query.ID);
+    this.refreshBuyQuantityTotal()
+    // console.log(this.$store.getters.products)
   },
   methods: {
     refreshProduct(ID) {
@@ -122,11 +115,27 @@ export default {
       this.selectModelShow = true;
     },
 
+    addToCart(productID, buyQuantity=1) {
+      // 调用store中的action完成该逻辑。
+      this.$store.dispatch('addToCart', {productID, buyQuantity})
+
+      // 刷新总的购买数量
+      this.refreshBuyQuantityTotal()
+    },
+    // 刷新总购买数量
+    refreshBuyQuantityTotal() {
+      this.$store.dispatch('cartInfo').then(cartInfo => {
+        this.buyQuantityTotal = cartInfo.buyQuantityTotal || null
+      })  
+    },
+    // 点击购物车处理
+    handleClickCart() {
+      // 进入购物车
+      this.$router.push({path: '/cart'})
+    },
+
     formatPrice() {
       return "¥" + (this.goods.price / 100).toFixed(2);
-    },
-    onClickCart() {
-      this.$router.push("cart");
     },
     sorry() {
       Toast("暂无后续逻辑~");
