@@ -111,13 +111,17 @@ func Routerlnit() *gin.Engine {
 		bg.DELETE("/group", controller.GroupDelete)
 		bg.POST("/group", controller.GroupCreate)
 		bg.PUT("/group", controller.GroupUpdate)
-		
+
 		//图像上传
-		bg.POST("/image-upload",controller.ImageUpload)
+		bg.POST("/image-upload", controller.ImageUpload)
 	}
 
 	//添加用户状态(登录校验)
 	r.POST("/user/auth", controller.UserAuth)
+
+	//webAPP项目路由
+	r.GET("product-promote",controller.ProductPromote)
+	r.GET("product-info",controller.ProductInfo)
 
 	//返回路由引擎对象
 	return r

@@ -198,6 +198,7 @@ func GroupUpdate(c *gin.Context) {
 	if len(m.CheckedProductID) > 0 {
 		//将用户选中的产品更新到一组
 		orm.Model(&model.Product{}).Where("id in (?)", m.CheckedProductID).Update("group_id", m.ID)
+		orm.Model(&model.Product{}).Where("id not in (?) AND group_id = ?", m.CheckedProductID).Update("group_id", 0)
 	}
 
 	//处理差异属性

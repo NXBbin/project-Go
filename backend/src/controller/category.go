@@ -22,12 +22,12 @@ func CategoryTree(c *gin.Context) {
 	//获取全部分类
 	orm.Find(&categories)
 	//遍历categors，得到每个分类，利用分类查询关联
-	for i, v := range categories {
+	for i, _ := range categories {
 		//利用orm模型操作查询表中全部字段，找到表中的关联字段
 		orm.Model(&categories[i]).Related(&categories[i].Products)
-		log.Println(i, v)
+		// log.Println(i, v)
 	}
-	log.Println(&categories)
+	// log.Println(&categories)
 	//响应数据
 	c.JSON(200, gin.H{
 		"error": "",

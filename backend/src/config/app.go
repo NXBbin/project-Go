@@ -20,6 +20,12 @@ func InitConfig() {
 		//存储上传文件的路径
 		"UPLOAD_PATH": "D:\\demo\\GO-project\\project-Go\\upload\\",
 		//静态资源服务器
-		"IMAGE_HOST": "http://localhost:8099/",
+		"IMAGE_HOST": "http://localhost:8089/",
+		// 小图缩放值
+		"THUMB_SMALL_W": "146",
+		"THUMB_SMALL_H": "146",
+		//中图缩放值
+		"THUMB_BIG_W": "1460",
+		"THUMB_BIG_H": "1460",
 	}
 }

@@ -14,6 +14,6 @@ type Image struct {
 	SortOrder  int
 	Host       string
 	Image      string //客户端上传后，保存到服务器的字段
-	ImageSmall string //图像缩略图路径
-	ImageBig   string //图像缩略图路径
+	ImageSmall string //图像缩略图路径，小图（146*146）
+	ImageBig   string //图像缩略图路径，中图（1460*1460）
 }

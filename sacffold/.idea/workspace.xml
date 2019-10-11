@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a84da035-370f-45d6-84a8-3bba8c39d09b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../backend/src/controller/action.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/controller/category.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/controller/category.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/controller/controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/controller/controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/controller/user.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/dao/Dao.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/dao/funcs.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/dao/ifs.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/model/Category.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/model/Category.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/router/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../manager/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../manager/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../manager/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../manager/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../manager/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../manager/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../manager/src/assets/manager.css" beforeDir="false" afterPath="$PROJECT_DIR$/../manager/src/assets/manager.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../manager/src/components/category/CategoryTree.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../manager/src/components/category/CategoryTree.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../manager/src/components/partial/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../manager/src/components/partial/Header.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../manager/src/components/partial/Menu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../manager/src/components/partial/Menu.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../manager/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../manager/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../manager/src/router/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/../manager/src/router/router.js" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-1901794022">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="2" />
+          <entry key="project.open.time.0" value="2" />
+          <entry key="project.open.time.3" value="1" />
+          <entry key="project.opened" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="ManagerRouterCode" value="2" />
+          <entry key="go" value="1" />
+          <entry key="json" value="10" />
+          <entry key="listComponent" value="1" />
+          <entry key="routerCode" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Go" value="1" />
+          <entry key="JSON" value="10" />
+          <entry key="PLAIN_TEXT" value="5" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="ManagerRouterCode" value="48" />
+          <entry key="go" value="8" />
+          <entry key="json" value="322" />
+          <entry key="listComponent" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Go" value="8" />
+          <entry key="JSON" value="322" />
+          <entry key="PLAIN_TEXT" value="49" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/config/group.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/attr.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="5" column="51" selection-end-line="8" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ManagerRouterCode">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="10" column="67" selection-start-line="10" selection-end-line="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="GOROOT" path="D:\services\Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/config/role.json" />
+        <option value="$PROJECT_DIR$/scaffold.go" />
+        <option value="$PROJECT_DIR$/ManagerRouterCode" />
+        <option value="$PROJECT_DIR$/config/privilege.json" />
+        <option value="$PROJECT_DIR$/scaffoldTemplate/manager/listComponent" />
+        <option value="$PROJECT_DIR$/config/role_privilege.json" />
+        <option value="$PROJECT_DIR$/config/attr_type.json" />
+        <option value="$PROJECT_DIR$/config/attr_group.json" />
+        <option value="$PROJECT_DIR$/config/attr.json" />
+        <option value="$PROJECT_DIR$/config/product_attr.json" />
+        <option value="$PROJECT_DIR$/config/group.json" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="515" />
+    <option name="y" value="441" />
+    <option name="width" value="1623" />
+    <option name="height" value="1035" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="scaffold" type="b2602c69:ProjectViewProjectNode" />
+              <item name="scaffold" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="scaffold" type="b2602c69:ProjectViewProjectNode" />
+              <item name="scaffold" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="scaffold" type="b2602c69:ProjectViewProjectNode" />
+              <item name="scaffold" type="462c0819:PsiDirectoryNode" />
+              <item name="scaffoldTemplate" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="go.gopath.indexing.explicitly.defined" value="true" />
+    <property name="go.sdk.automatically.set" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../go/src/scaffold-gin" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21375267" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.3846154" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/scaffold.go</url>
+          <line>2</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/config/user.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="8" column="47" lean-forward="true" selection-start-line="8" selection-start-column="47" selection-end-line="8" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/privilege.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="6" column="15" selection-start-line="6" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/attr_type.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" column="125" selection-end-line="7" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/role.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" column="126" selection-start-line="5" selection-start-column="126" selection-end-line="5" selection-end-column="126" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/product_attr.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="6" column="51" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scaffoldTemplate/manager/listComponent">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6120">
+          <caret line="255" column="26" selection-start-line="255" selection-start-column="26" selection-end-line="255" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/role_privilege.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="4" column="51" selection-start-line="4" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scaffold.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="624">
+          <caret line="134" column="33" selection-start-line="134" selection-start-column="33" selection-end-line="134" selection-end-column="33" />
+          <folding>
+            <element signature="e#14#104#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/attr_group.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" column="8" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/attr.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" column="51" selection-end-line="8" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ManagerRouterCode">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="10" column="67" selection-start-line="10" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routerCode">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="65" column="3" lean-forward="true" selection-start-line="65" selection-start-column="3" selection-end-line="69" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/group.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

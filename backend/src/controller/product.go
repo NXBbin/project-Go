@@ -362,12 +362,14 @@ func ProductUpdate(c *gin.Context) {
 	}
 
 	//更新image表
-	for _, img := range m.UploadedImage {
+	for i, img := range m.UploadedImage {
 		//存储格式：a/b/xxxx.jpg
 		image := model.Image{}
 		image.ProductID = m.ID
 		image.Host = config.App["IMAGE_HOST"]
 		image.Image = string(img[0]) + "/" + string(img[1]) + "/" + img
+		image.ImageSmall = string(m.UploadedImageSmall[i][0]) + "/" + string(m.UploadedImageSmall[i][1]) + "/" + m.UploadedImageSmall[i]
+		image.ImageBig = string(m.UploadedImageBig[i][0]) + "/" + string(m.UploadedImageBig[i][1]) + "/" + m.UploadedImageBig[i]
 		orm.Create(&image)
 	}
 

@@ -26,7 +26,9 @@ type Product struct {
 	//解析属性值字段,忽略该字段不在表中创建该字段
 	AttrValue map[uint]string `gorm:"-"`
 	//上传图像
-	UploadedImage []string `gorm:"-"`
+	UploadedImage      []string `gorm:"-"`
+	UploadedImageSmall []string `gorm:"-"`
+	UploadedImageBig   []string `gorm:"-"`
 
 	//关联定义，多个产品关联一个分类
 	//被关联的外键（必须存在一个...ID属性名，否则关联的外键上需要使用targ语法)
@@ -43,4 +45,8 @@ type Product struct {
 	ProductAttrs []ProductAttr
 	//关联图像表
 	Images []Image
+	//关联分组产品表
+	Group Group
+	//webAPP同组产品差异信息额外字段
+	ModelInfo string `gorm:"-"`
 }

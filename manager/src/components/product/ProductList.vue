@@ -22,7 +22,7 @@
               <el-input v-model="itemSetForm.Name"></el-input>
             </el-form-item>
             <el-form-item label="价格" prop="Price">
-              <el-input v-model="itemSetForm.Price"></el-input>
+              <el-input v-model.number="itemSetForm.Price"></el-input>
             </el-form-item>
             <el-form-item label="所属分类" prop="CategoryID">
               <el-select v-model="itemSetForm.CategoryID" placeholder="请选择上级分类">
@@ -202,7 +202,6 @@
 <script>
 import base from "../../api/uri.js";
 import { isNull } from "util";
-// import { type } from 'os';     ////+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 export default {
   name: "ProductList",
   data() {
@@ -241,16 +240,15 @@ export default {
     this.refreshItems();
   },
   methods: {
-    handleUploadSuccess(response, file) {
+    handleUploadSuccess(response) {
       if (!this.itemSetForm.UploadedImage) {
         this.itemSetForm.UploadedImage = [];
-        // this.itemSetForm.UploadedImageSmall = [];
-        // this.itemSetForm.UploadedImageBig = [];
+        this.itemSetForm.UploadedImageSmall = [];
+        this.itemSetForm.UploadedImageBig = [];
       }
-      this.itemSetForm.UploadedImage.push(response.data.filename);
-      // this.itemSetForm.UploadedImage.push(response.data.Image);
-      // this.itemSetForm.UploadedImageSmall.push(response.data.ImageSmall);
-      // this.itemSetForm.UploadedImageBig.push(response.data.ImageBig);
+      this.itemSetForm.UploadedImage.push(response.data.Image);
+      this.itemSetForm.UploadedImageSmall.push(response.data.ImageSmall);
+      this.itemSetForm.UploadedImageBig.push(response.data.ImageBig);
     },
     handleUploadBefore(file) {
       let types = ['image/jpeg', 'image/png', 'image/gif']
@@ -454,8 +452,7 @@ export default {
       item.Images.forEach(element => {
         this.itemSetForm.imageList.push({
           name: element.Image,
-          url: element.Host + element.Image
-          // url: element.Host + element.ImageSmall
+          url: element.Host + element.ImageSmall
         });
       });
 
