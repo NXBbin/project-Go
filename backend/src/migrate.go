@@ -26,7 +26,7 @@ func main() {
 	// "bin:123456@tcp(localhost:3306)/projecta?charset=utf8mb4&loc=Local"
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&loc=%s",
 		config.App["MYSQL_USER"],
-		config.App["MYSQL_POSSWORD"],
+		config.App["MYSQL_PASSWORD"],
 		config.App["MYSQL_HOST"],
 		config.App["MYSQL_PORT"],
 		config.App["MYSQL_DBNAME"],
@@ -106,4 +106,40 @@ func main() {
 	//创建产品图像表
 	orm.AutoMigrate(&model.Image{})
 	log.Println("Image产品图像表已创建")
+
+	//创建购物车表
+	orm.AutoMigrate(&model.Cart{})
+	log.Println("Cart购物车表已创建")
+
+	//创建收货地址表
+	orm.AutoMigrate(&model.Address{})
+	log.Println("Address收货地址表已创建")
+
+	//创建订单表
+	orm.AutoMigrate(&model.Order{})
+	log.Println("Order订单表已创建")
+
+	//创建订单状态表
+	orm.AutoMigrate(&model.OrderStatus{})
+	log.Println("Order-Status订单状态表已创建")
+
+	//创建支付表
+	orm.AutoMigrate(&model.Payment{})
+	log.Println("Payment支付表已创建")
+
+	//创建支付状态表
+	orm.AutoMigrate(&model.PaymentStatus{})
+	log.Println("Payment-Status支付状态表已创建")
+
+	//创建配送表
+	orm.AutoMigrate(&model.Shipping{})
+	log.Println("Shipping配送表已创建")
+
+	//创建配送状态表
+	orm.AutoMigrate(&model.ShippingStatus{})
+	log.Println("Shipping-Status配送状态表已创建")
+
+	//创建订单产品关联表
+	orm.AutoMigrate(&model.OrderProduct{})
+	log.Println("OrderProduct订单产品关联表已创建")
 }

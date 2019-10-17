@@ -2,11 +2,13 @@ package middleware
 
 import (
 	"bytes"
+	"config"
+
 	// "fmt"
 	// "model"
 	"net/http"
 
-	"github.com/dgrijalva/jwt-go"
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,8 +38,16 @@ func JWTToken(c *gin.Context) {
 
 	// 校验token是否被篡改
 	tokenObj, parseErr := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
-		return []byte("AllYourBase"), nil
+		return []byte(config.App["SECRET"]), nil
 	})
+	//token语法失败
+	if parseErr != nil {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"error": parseErr.Error(),
+		})
+		c.Abort()
+		return
+	}
 
 	//判断校验结果
 	if !tokenObj.Valid {

@@ -23,7 +23,7 @@ func Pri(c *gin.Context) {
 	// "bin:123456@tcp(localhost:3306)/projecta?charset=utf8mb4&loc=Local"
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&loc=%s&parseTime=%s",
 		config.App["MYSQL_USER"],
-		config.App["MYSQL_POSSWORD"],
+		config.App["MYSQL_PASSWORD"],
 		config.App["MYSQL_HOST"],
 		config.App["MYSQL_PORT"],
 		config.App["MYSQL_DBNAME"],

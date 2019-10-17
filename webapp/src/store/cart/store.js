@@ -1,3 +1,7 @@
+import Vue from 'vue'
+
+
+import base from '../../plugin/api.js'
 
 export default {
     // 存储定义数据
@@ -35,7 +39,7 @@ export default {
         // 添加商品到购物车
         addToCart(context, buyInfo) {
             // 判断产品是否存在与购物车中
-            let index = context.getters.products.findIndex(element=>{
+            let index = context.getters.products.findIndex(element => {
                 return element.productID == buyInfo.productID
             })
 
@@ -45,17 +49,17 @@ export default {
             }
             else {
                 // 产品存在
-                context.commit('addProductBuyQuantity', {index, buyQuantity: buyInfo.buyQuantity})
+                context.commit('addProductBuyQuantity', { index, buyQuantity: buyInfo.buyQuantity })
             }
 
             // 持久化存储
             context.dispatch('save')
-        }, 
+        },
 
         // 将产品从购物车中移除
         removeFromCart(context, payload) {
             // 找到需要删除的索引
-            let index = context.getters.products.findIndex(element=>{
+            let index = context.getters.products.findIndex(element => {
                 return element.productID == payload.productID
             })
             // 利用mutation完成更新
@@ -69,11 +73,11 @@ export default {
 
         // 设置购买数量
         setBuyQuantity(context, payload) {
-            let index = context.getters.products.findIndex(element=>{
+            let index = context.getters.products.findIndex(element => {
                 return element.productID == payload.productID
             })
-             // 利用mutation完成更新
-             context.commit('setProduct', {
+            // 利用mutation完成更新
+            context.commit('setProduct', {
                 index,
                 buyInfo: payload,
             })
@@ -93,16 +97,54 @@ export default {
                 buyQuantityTotal,
             }
         },
+        // 同步购物车
+        cartSync(context, payload) {
+            let token = context.getters.JWTToken
+            // 设置请求头，携带token
+            Vue.axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+
+            let body = new URLSearchParams();
+            body.append("cart", JSON.stringify(context.getters.products));
+
+            Vue.axios.put(base + 'member-cart-sync', body).then(resp => {
+
+            })
+        },
 
         // 持久化存储
         save(context, payload) {
-            // 在未登录的情况下
-            window.localStorage.setItem('cart', JSON.stringify(context.getters.products))
+
+            let token = context.getters.JWTToken
+            // 设置请求头，携带token
+            Vue.axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+
+            let body = new URLSearchParams();
+            body.append("cart", JSON.stringify(context.getters.products));
+
+            Vue.axios.put(base + 'member-cart-set', body).then(resp => {
+            }).catch(() => {
+                // 在未登录的情况下
+                window.localStorage.setItem('cart', JSON.stringify(context.getters.products))
+            })
         },
         // 初始化购物车
-        init(context, payload) {
-            let products = JSON.parse(window.localStorage.getItem('cart')) || []
-            context.commit('setProducts', {products})
+        initCart(context, payload) {
+            // 如果当前用户处于登录状态，应该从服务器端获取购物车核心数据
+            // 先判断用户的登录状态
+            let token = context.getters.JWTToken
+            // 设置请求头，携带token
+            Vue.axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+            // 校验token的合理性
+            Vue.axios.get(base + 'member-cart').then(resp => {
+                let content = resp.data.data || '[]'
+                context.commit('setProducts', {
+                    products: JSON.parse(content),
+                })
+            }).catch(error => {
+                context.commit('setProducts', {
+                    products: JSON.parse(window.localStorage.getItem('cart') || '[]'),
+                })
+            })
         },
     },
-  }
+}

@@ -120,9 +120,30 @@ func Routerlnit() *gin.Engine {
 	r.POST("/user/auth", controller.UserAuth)
 
 	//webAPP项目路由
+	//商品页
 	r.GET("product-promote", controller.ProductPromote)
+	//商品型号选择
 	r.GET("product-info", controller.ProductInfo)
+	//购物车
 	r.GET("cart-product", controller.CartProduct)
+	//用户登录
+	r.POST("member-login", controller.MemberLogin)
+	//认证会员
+	r.GET("member-auth", controller.MemberAuth)
+	//获取会员购物车信息
+	r.GET("member-cart", controller.MemberCart)
+	//将前端购物车信息同步到后端
+	r.PUT("member-cart-sync", controller.MemberCartSync)
+	//将后端数据同步前端
+	r.PUT("member-cart-set", controller.MemberCartSet)
+	//获取收货地址列表
+	r.GET("member-address-list", controller.MemberAddressList)
+	//新增地址
+	r.POST("member-address-add", controller.MemberAddressAdd)
+	//配送列表
+	r.GET("shipping-list", controller.ShippingList)
+	//创建订单号
+	r.POST("order-create", controller.OrderCreate)
 
 	//返回路由引擎对象
 	return r

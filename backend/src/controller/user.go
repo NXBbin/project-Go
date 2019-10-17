@@ -3,6 +3,7 @@ package controller
 //User 表控制器（增删改查）代码，脚手架模板
 
 import (
+	"config"
 	"crypto/hmac"
 	"crypto/sha256"
 	"fmt"
@@ -13,7 +14,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
@@ -49,7 +50,7 @@ func UserAuth(c *gin.Context) {
 	}
 
 	//生成Token签名key随机串
-	mySigningKey := []byte("AllYourBase")
+	mySigningKey := []byte(config.App["SECRET"])
 	// Token内容
 	claims := &jwt.StandardClaims{
 		// 有效期，当前时间戳+有效时间(毫秒)
