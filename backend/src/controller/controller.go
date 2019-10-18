@@ -45,7 +45,7 @@ func InitDB() (*gorm.DB, error) {
 }
 
 //初始化redis
-var rds redis.Conn
+var Rds redis.Conn
 
 func InitRedis() (redis.Conn, error) {
 	//设置选项
@@ -67,7 +67,7 @@ func InitRedis() (redis.Conn, error) {
 		return nil, err
 	}
 
-	rds = c
+	Rds = c
 
 	return c, nil
 }

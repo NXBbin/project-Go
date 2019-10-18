@@ -45,69 +45,77 @@ func main() {
 	// orm.Exec("truncate a_products")
 
 	//-插入数据测试（seed）
-	orm.Create(&model.Payment{
-		Title: "微信支付", Key: "wechat-pay", Intro: "基于微信提供的支付系统", Status: 1,
-	})
-	orm.Create(&model.Payment{
-		Title: "支付宝", Key: "alipay", Intro: "基于支付宝提供的支付系统", Status: 1,
-	})
-	orm.Create(&model.Payment{
-		Title: "银联", Key: "yinhan-pay", Intro: "基于银联提供的支付系统", Status: 1,
-	})
-	log.Println("Payment支付方式表数据插入成功")
+	// orm.Create(&model.Payment{
+	// 	Title: "微信支付", Key: "wechat-pay", Intro: "基于微信提供的支付系统", Status: 1,
+	// })
+	// orm.Create(&model.Payment{
+	// 	Title: "支付宝", Key: "alipay", Intro: "基于支付宝提供的支付系统", Status: 1,
+	// })
+	// orm.Create(&model.Payment{
+	// 	Title: "银联", Key: "yinhan-pay", Intro: "基于银联提供的支付系统", Status: 1,
+	// })
+	// log.Println("Payment支付方式表数据插入成功")
 
-	orm.Create(&model.PaymentStatus{
-		Title: "支付错误",
-	})
-	orm.Create(&model.PaymentStatus{
-		Title: "未支付",
-	})
-	orm.Create(&model.PaymentStatus{
-		Title: "已支付",
-	})
-	log.Println("PaymentStatus支付状态表数据插入成功")
+	// orm.Create(&model.PaymentStatus{
+	// 	Title: "支付错误",
+	// })
+	// orm.Create(&model.PaymentStatus{
+	// 	Title: "未支付",
+	// })
+	// orm.Create(&model.PaymentStatus{
+	// 	Title: "已支付",
+	// })
+	// log.Println("PaymentStatus支付状态表数据插入成功")
 
-	orm.Create(&model.Shipping{
-		Title: "顺丰", Key: "sf", Intro: "顺丰快递", Status: 1,
-	})
-	orm.Create(&model.Shipping{
-		Title: "圆通", Key: "yt", Intro: "圆通快递", Status: 1,
-	})
-	orm.Create(&model.Shipping{
-		Title: "韵达", Key: "yd", Intro: "韵达快递", Status: 1,
-	})
-	log.Println("Shipping配送方式表数据插入成功")
+	// orm.Create(&model.Shipping{
+	// 	Title: "顺丰", Key: "sf", Intro: "顺丰快递", Status: 1,
+	// })
+	// orm.Create(&model.Shipping{
+	// 	Title: "圆通", Key: "yt", Intro: "圆通快递", Status: 1,
+	// })
+	// orm.Create(&model.Shipping{
+	// 	Title: "韵达", Key: "yd", Intro: "韵达快递", Status: 1,
+	// })
+	// log.Println("Shipping配送方式表数据插入成功")
 
-	orm.Create(&model.ShippingStatus{
-		Title: "超出配送范围",
-	})
-	orm.Create(&model.ShippingStatus{
-		Title: "未发货",
-	})
-	orm.Create(&model.ShippingStatus{
-		Title: "已发货",
-	})
-	orm.Create(&model.ShippingStatus{
-		Title: "已收货",
-	})
-	log.Println("ShippingStatus配送状态表数据插入成功")
+	// orm.Create(&model.ShippingStatus{
+	// 	Title: "超出配送范围",
+	// })
+	// orm.Create(&model.ShippingStatus{
+	// 	Title: "未发货",
+	// })
+	// orm.Create(&model.ShippingStatus{
+	// 	Title: "已发货",
+	// })
+	// orm.Create(&model.ShippingStatus{
+	// 	Title: "已收货",
+	// })
+	// log.Println("ShippingStatus配送状态表数据插入成功")
 
-	orm.Create(&model.OrderStatus{
-		Title: "订单异常",
-	})
-	orm.Create(&model.OrderStatus{
-		Title: "完成",
-	})
-	orm.Create(&model.OrderStatus{
-		Title: "取消",
-	})
-	orm.Create(&model.OrderStatus{
-		Title: "删除",
-	})
-	orm.Create(&model.OrderStatus{
-		Title: "确认",
-	})
-	log.Println("OrderStatus订单状态表数据插入成功")
+	// orm.Create(&model.OrderStatus{
+	// 	Title: "订单异常",
+	// })
+	// orm.Create(&model.OrderStatus{
+	// 	Title: "完成",
+	// })
+	// orm.Create(&model.OrderStatus{
+	// 	Title: "取消",
+	// })
+	// orm.Create(&model.OrderStatus{
+	// 	Title: "删除",
+	// })
+	// orm.Create(&model.OrderStatus{
+	// 	Title: "确认",
+	// })
+	// log.Println("OrderStatus订单状态表数据插入成功")
+
+	// orm.Create(&model.Quantity{
+	// 	ProductID: 1, Number: 15,
+	// })
+	// orm.Create(&model.Quantity{
+	// 	ProductID: 2, Number: 8,
+	// })
+	// log.Println("Quantity库存表数据插入成功")
 
 	// //产品-插入数据测试（seed）
 	// orm.Create(&model.Product{

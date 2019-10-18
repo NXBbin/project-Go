@@ -144,6 +144,8 @@ func Routerlnit() *gin.Engine {
 	r.GET("shipping-list", controller.ShippingList)
 	//创建订单号
 	r.POST("order-create", controller.OrderCreate)
+	//处理订单
+	r.GET("order-result", controller.OrderResult)
 
 	//返回路由引擎对象
 	return r

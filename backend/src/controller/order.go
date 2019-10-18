@@ -22,6 +22,24 @@ type TempOrder struct {
 	UserID       uint
 }
 
+//处理订单
+func OrderResult(c *gin.Context) {
+	// 获取前端请求传递的sn，向redis查询是否存在数据
+	sn := c.DefaultQuery("sn", "")
+	result, err := Rds.Do("HGET", "orderResult", sn)
+	if err != nil || result == nil {
+		c.JSON(http.StatusOK, gin.H{
+			"error": "订单不存在",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"error": "",
+		"data":  string(result.([]byte)),
+	})
+
+}
+
 //订单生成
 func OrderCreate(c *gin.Context) {
 	user := member(c)
@@ -43,7 +61,7 @@ func OrderCreate(c *gin.Context) {
 	)
 	//在redis使用的序号递增key
 	counterKey := "counter" + key
-	n, err := rds.Do("incr", counterKey)
+	n, err := Rds.Do("incr", counterKey)
 	// log.Println("--------", n, err)
 	if err != nil {
 		//没有序号，生成随机序号
@@ -62,7 +80,7 @@ func OrderCreate(c *gin.Context) {
 
 	// 2.临时存储订单信息
 	tempOrder := TempOrder{}
-	c.ShouldBindUri(&tempOrder)
+	c.ShouldBind(&tempOrder)
 	//记录订单对应的用户信息
 	tempOrder.UserID = user.ID
 	//记录订单中的产品信息
@@ -77,16 +95,16 @@ func OrderCreate(c *gin.Context) {
 	}
 
 	// 利用hash结构，存储在redis中。sn为key键，toj为value值
-	_, hseterr := rds.Do("HSET", "tempOrder", sn, toj)
+	_, hseterr := Rds.Do("HSET", "tempOrder", sn, toj)
 	if hseterr != nil {
 		//redis缓存失败，应使用其他方案
 	}
 
 	// 3.将订单放入队列（等待处理）
 	// 先获取队列长度，提示：
-	waitLen, _ := rds.Do("XLEN", "orderQueue")
+	waitLen, _ := Rds.Do("XLEN", "orderQueue")
 	//放入队列
-	_, addErr := rds.Do("XADD", "orderQueue", "*", "content", sn)
+	_, addErr := Rds.Do("XADD", "orderQueue", "*", "content", sn)
 	if addErr != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"error": "订单队列错误",

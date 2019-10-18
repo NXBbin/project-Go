@@ -17,5 +17,6 @@ type User struct {
 	Token        string
 	//关联字段
 	RoleID uint
-	Role Role
+	Role   Role
+	Cart   Cart //购物车关联
 }

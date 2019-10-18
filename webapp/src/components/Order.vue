@@ -62,6 +62,10 @@
     <van-submit-bar :price="totalPrice" button-text="生成订单" @submit="handleOrderSubmit">
       <van-checkbox v-model="all">全选</van-checkbox>
     </van-submit-bar>
+
+    <van-overlay :show="overlayShow" @click="overlayShow = false" style="text-align: center;">
+      <van-loading slot="default" style="margin-top: 60%; " />
+    </van-overlay>
   </div>
 </template>
 
@@ -81,7 +85,9 @@ import {
   Popup,
   Picker,
   Field,
-  Notify
+  Notify,
+  Overlay,
+  Loading
 } from "vant";
 import base, { staticBase } from "../plugin/api";
 
@@ -100,6 +106,8 @@ export default {
     [Popup.name]: Popup,
     [Picker.name]: Picker,
     [Field.name]: Field,
+    [Overlay.name]: Overlay,
+    [Loading.name]: Loading,
     [Stepper.name]: Stepper
   },
   data() {
@@ -115,7 +123,9 @@ export default {
       shippings: [],
       shipping: "",
       shippingID: null,
-      note: ""
+      note: "",
+      addressID: 3,
+      overlayShow: false
     };
   },
   mounted() {
@@ -211,13 +221,14 @@ export default {
         });
     },
     handleOrderSubmit() {
+      this.overlayShow = true;
       this.axios
         .post(
           base + "order-create",
           {
             // 订单全部数据
-            ShippingID: 0,
-            AddressID: 0,
+            ShippingID: this.ShippingID,
+            AddressID: this.addressID,
             BuyProductID: [1, 2]
           },
           {
@@ -229,7 +240,35 @@ export default {
         .then(resp => {
           // 成功，服务器响应了。会响应订单的sn
           console.log(resp);
-          Notify("订单处理中，前面有 " + resp.data.waitLen + " 个订单", "success")
+          Notify(
+            "订单处理中，前面有 " + resp.data.waitLen + " 个订单",
+            "success"
+          );
+          // 轮询获取结果
+          let intID = setInterval(() => {
+            this.axios
+              .get(base + "order-result", {
+                params: {
+                  sn: resp.data.data
+                },
+                headers: {
+                  Authorization: "Bearer " + this.$store.getters.JWTToken
+                }
+              })
+              .then(resp => {
+                if (resp.data.data == "error") {
+                  clearInterval(intID);
+                  Notify("订单生成失败", "success");
+                  this.overlayShow = false
+                } else if (resp.data.data == "success") {
+                  clearInterval(intID);
+                  Notify("订单生成成功", "success");
+                  this.overlayShow = false
+                } else {
+                  Notify("订单处理中", "success");
+                }
+              });
+          }, 500);
         })
         .catch(error => {
           this.$router.push({

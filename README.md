@@ -14,11 +14,14 @@ webapp -- src  -->npm run serve
 backend -- src -- go run main.go
 
 linux启动redis：
-打开VMware（CentOs6.8）--编辑--虚拟网络编辑器--先还原配置--设置VMnet8的DHCP网关与系统内设置的网关段一致
-启动服务器：cd redis-5.0.5 --- src/redis-server redis.conf
+打开VMware（CentOs6.8）--编辑--虚拟网络编辑器--先还原配置--设置VMnet8的DHCP网关与系统内设置的网关段一致；
+启动服务器：cd redis-5.0.5 --- src/redis-server redis.conf；
 
 登录服务器查询： redis-5.0.5/src/redis-cli  
-	查询订单序号：127.0.0.1:6379> get counter+日期
-	获取订单信息：127.0.0.1:6379> hget tempOrder 订单号
-	遍历订单队列：127.0.0.1:6379> xrange orderQueue - +
-	获取订单队列长度：127.0.0.1:6379> xlen orderQueue
+	查询订单序号：127.0.0.1:6379> get counter+日期；
+	获取订单信息：127.0.0.1:6379> hget tempOrder 订单号；
+	遍历订单队列：127.0.0.1:6379> xrange orderQueue - +；
+	获取订单队列长度：127.0.0.1:6379> xlen orderQueue；
+	获取最新的一条订单信息：127.0.0.1:6379> xread count 1 Block 30000 streams orderQueue $；
+	
+执行订单处理守护进程：\backend\src> go run order.go

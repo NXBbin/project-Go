@@ -142,4 +142,8 @@ func main() {
 	//创建订单产品关联表
 	orm.AutoMigrate(&model.OrderProduct{})
 	log.Println("OrderProduct订单产品关联表已创建")
+
+	//创建库存表
+	orm.AutoMigrate(&model.Quantity{})
+	log.Println("Quantity库存表已创建")
 }

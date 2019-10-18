@@ -21,8 +21,8 @@ type Order struct {
 	ShippingID       uint
 	ShippingStatusID uint
 	ShippingSn       string
-	ShippingAmount   int //配送费
-	Amount           int
+	ShippingAmount   int  //配送费
+	Amount           int  //总金额
 	TaxID            uint //税类型
 	TaxAmount        int  //税费
 	ProductAmount    int
