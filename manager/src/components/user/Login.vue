@@ -20,6 +20,16 @@
             <el-form-item label="密码" prop="Password">
               <el-input type="password" v-model="loginForm.Password" autocomplete="off"></el-input>
             </el-form-item>
+            <el-form-item label="验证码" prop>
+              <el-input v-model="loginForm.Code"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-image :src="codeSrc">
+                <div slot="error" class="image-slot">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
+            </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitLoginForm">提交</el-button>
               <el-button @click="resetLoginForm">重置</el-button>
@@ -32,7 +42,7 @@
 </template>
 
 <script>
-import base from '../../api/uri';
+import base from "../../api/uri";
 export default {
   name: "Login",
   data() {
@@ -41,30 +51,37 @@ export default {
       loginRules: {
         User: [{ required: true, message: "请输入用户名", trigger: "blur" }],
         Password: [{ required: true, message: "请输入密码", trigger: "blur" }]
-      }
+      },
+      codeSrc: base + 'check-code',
     };
   },
+  mounted() {
+   
+  },
   methods: {
+  
     submitLoginForm() {
       this.$refs["loginForm"].validate(valid => {
         if (valid) {
-            let params = new URLSearchParams()
-            params.append("User", this.loginForm.User)
-            params.append("Password", this.loginForm.Password)
-          this.axios.post(base + 'user/auth', params).then(resp=>{
-              if (resp.data.error) {
-                  this.$message.error(resp.data.error)
-                  return
-              }
-              // 将token存储到localStorage中
-              // window.localStorage.setItem("jwt-token", resp.data.token)
-              // 使用store分发action的方式存储：
-              this.$store.dispatch("setJWTToken", resp.data.token)
-              // 跳转到来源
-              let redirect = this.$route.query.redirect ? this.$route.query.redirect : "/"
-              this.$router.push(redirect)
-          })
-
+          let params = new URLSearchParams();
+          params.append("User", this.loginForm.User);
+          params.append("Password", this.loginForm.Password);
+          params.append("Code", this.loginForm.Code);
+          this.axios.post(base + "user/auth", params).then(resp => {
+            if (resp.data.error) {
+              this.$message.error(resp.data.error);
+              return;
+            }
+            // 将token存储到localStorage中
+            // window.localStorage.setItem("jwt-token", resp.data.token)
+            // 使用store分发action的方式存储：
+            this.$store.dispatch("setJWTToken", resp.data.token);
+            // 跳转到来源
+            let redirect = this.$route.query.redirect
+              ? this.$route.query.redirect
+              : "/";
+            this.$router.push(redirect);
+          });
         } else {
           return false;
         }

@@ -35,7 +35,7 @@ func productModel(product *model.Product) {
 	}
 	//获取product_attr关联表中的差异属性
 	pas := []model.ProductAttr{}
-	orm.Where("product_id=? AND attr_id = ?", product.ID, aids).Find(&pas)
+	orm.Where("product_id=? AND attr_id in (?)", product.ID, aids).Find(&pas)
 	values := []string{}
 	for _, pa := range pas {
 		values = append(values, pa.Value)

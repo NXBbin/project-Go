@@ -5,6 +5,7 @@ package controller
 import (
 	"config"
 	"crypto/hmac"
+	"crypto/md5"
 	"crypto/sha256"
 	"fmt"
 	"log"
@@ -12,6 +13,7 @@ import (
 	"model"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -20,6 +22,30 @@ import (
 
 //用户校验
 func UserAuth(c *gin.Context) {
+	//获取用户在表单中输入的验证码信息
+	postCode := c.PostForm("Code")
+	if postCode == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"error": "请输入验证码",
+		})
+		return
+	}
+	//于redis中的数据对比
+	i := strings.Index(c.Request.RemoteAddr, "]")
+	key := fmt.Sprintf("%x", md5.Sum([]byte(c.Request.RemoteAddr[1:i]+c.Request.Header["User-Agent"][0])))
+	result, _ := Rds.Do("get", "code_"+key)
+	code := string(result.([]byte))
+	//对比前后端的验证码信息是否一致
+	if postCode != code {
+		c.JSON(http.StatusOK, gin.H{
+			"error": "验证码错误",
+		})
+		return
+	}
+
+	//验证码正确，立即删除redis中对应的数据，避免重用
+	Rds.Do("DEL", "code_"+key)
+
 	user := model.User{}
 	//通过用户名获取用户信息，在比较密码是否正确
 	postUser := c.PostForm("User")

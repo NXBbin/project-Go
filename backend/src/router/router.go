@@ -147,6 +147,9 @@ func Routerlnit() *gin.Engine {
 	//处理订单
 	r.GET("order-result", controller.OrderResult)
 
+	//验证码
+	r.GET("check-code", controller.CheckCode)
+
 	//返回路由引擎对象
 	return r
 }

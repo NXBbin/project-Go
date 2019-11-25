@@ -1,6 +1,6 @@
 package controller
 
-//wabAPP展示商品列表
+//wabAPP购物车列表
 import (
 	// "strings"
 	// "config"
@@ -14,9 +14,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//获取推荐商品主图列表
+//获取商品主信息列表
 func CartProduct(c *gin.Context) {
-	//获取前端传递的filterIDs[]
+	//获取前端传递的filterIDs[]（由于前端传递的是数组，在Headre里面中括号也是key的一部分。）
 	filterIDs := c.QueryArray("filterIDs[]")
 	if len(filterIDs) == 0 {
 		c.JSON(http.StatusOK, gin.H{
@@ -30,7 +30,7 @@ func CartProduct(c *gin.Context) {
 
 	//获取product模型
 	products := []model.Product{}
-	//获取展示数量和偏移量,输出数据获
+	//获取展示数量和偏移量,输出数据获 // select * from a_products where id in (44,22,51);
 	orm.Where(condStr, filterIDs).Find(&products)
 	//遍历全部属性，找到关联字段
 	for i, _ := range products {

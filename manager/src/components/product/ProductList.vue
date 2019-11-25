@@ -161,9 +161,10 @@
           <el-col :span="24" class="pager-col">
             <el-pagination
               @size-change="handleSizeChange"
+               :page-sizes="[5, 10, 15, 20]"
               @current-change="handleCurrentChange"
               :current-page="currentPage"
-              :page-sizes="[5, 10, 15, 20]"
+             
               :page-size="pageSize"
               :total="total"
               layout="total, sizes, prev, pager, next, jumper"

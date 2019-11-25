@@ -24,13 +24,13 @@ func main() {
 	}
 	defer db.Close()
 
-	//初始化redis
-	rc, err := controller.InitRedis()
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	defer rc.Close()
+	// //初始化redis
+	// rc, err := controller.InitRedis()
+	// if err != nil {
+	// 	log.Println(err)
+	// 	return
+	// }
+	// defer rc.Close()
 
 	//启动服务端口
 	r.Run(config.App["SERVER_ADDR"])
